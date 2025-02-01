@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Narrative{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">Edit Narrative Details</div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('narratives_bp.edit_narrative', narrative_id=narrative.id) }}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ narrative.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="objective" class="form-label">Objective</label>
+                <textarea class="form-control" id="objective" name="objective" rows="3" required>{{ narrative.objective }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="attacker_profile" class="form-label">Attacker Profile</label>
+                <textarea class="form-control" id="attacker_profile" name="attacker_profile" rows="2" required>{{ narrative.attacker_profile }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="deception_activities" class="form-label">Deception Activities</label>
+                <textarea class="form-control" id="deception_activities" name="deception_activities" rows="2" required>{{ narrative.deception_activities }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date"  value="{{ narrative.end_date }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{{ url_for('narratives_bp.manage_narratives') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

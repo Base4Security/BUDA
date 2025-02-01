@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BUDA{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+    .navbar-brand img:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+</style>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BUDA Logo" width="30" height="30" class="d-inline-block align-text-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <!-- Context -->
+                    <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
+                        <a class="nav-link" href="/context">Context</a>
+                    </li>
+                    <!-- Narratives -->
+                    <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
+                        <a class="nav-link" href="/narratives/">Narratives</a>
+                    </li>
+                    <!-- User Profiles -->
+                    <li class="nav-item {% if request.path.startswith('/user_profiles') %}active{% endif %}">
+                        <a class="nav-link" href="/user_profiles">User Profiles</a>
+                    </li>
+                    <!-- Activities -->
+                    <li class="nav-item {% if request.path.startswith('/activities') %}active{% endif %}">
+                        <a class="nav-link" href="/activities">Activities</a>
+                    </li>
+                    <!-- Statistics -->
+                    <li class="nav-item {% if request.path.startswith('/statistics') %}active{% endif %}">
+                        <a class="nav-link" href="/statistics/dashboard">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+        <!-- Bottom Button for FAQ -->
+        <div style="position: fixed; bottom: 20px; right: 20px;">
+            <button class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#faqModal">
+                ?
+            </button>
+        </div>
+    
+        <!-- FAQ Modal -->
+        <div class="modal fade" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="faqModalLabel">Frequently Asked Questions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Q: What is BUDA?</strong>
+                                <p>A: BUDA stands for Behavioral User-driven Deceptive Activities. It’s a platform for managing narratives, user profiles, and simulated attacks.</p>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Q: How do I create a narrative?</strong>
+                                <p>A: Go to the Narrative Management section, fill in the form, and click "Create Narrative".</p>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Q: How can I generate a user profile?</strong>
+                                <p>A: Use the "Generate User Profile" button in the User Profiles section to automatically create one.</p>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Q: How do I upload context?</strong>
+                                <p>A: Use the Upload Context feature in the Behavior Management section to provide relevant data for narrative generation.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

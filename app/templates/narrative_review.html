@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Review Narrative{% endblock %}
+
+{% block content %}
+<!-- Detalles de la narrativa -->
+<div class="card mb-4" >
+    <div class="card-header">Narrative Details</div>
+    <div class="card-body">
+        <p><strong>Title:</strong> {{ narrative.title }}</p>
+        <p><strong>Objective:</strong> {{ narrative.objective }}</p>
+        <p><strong>Attacker Profile:</strong> {{ narrative.attacker_profile }}</p>
+        <p><strong>Deception Activities:</strong> {{ narrative.deception_activities }}</p>
+        <p><strong>End Date</strong> {{ narrative.end_date }}</p>
+        <p><strong>Created at:</strong> {{ narrative.created_at }}</p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">User Profiles</div>
+    <div class="card-body">
+        {% if user_profiles %}
+        <ul class="list-group">
+            {% for profile in user_profiles %}
+            <li class="list-group-item">
+                <strong>{{ profile.name }}</strong> - Role: {{ profile.role }} <br>
+                <em>Behavior Pattern:</em> {{ profile.behavior_pattern }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No user profiles associated with this narrative.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Actividades relacionadas -->
+<div class="card mb-4">
+    <div class="card-header">Activities</div>
+    <div class="card-body">
+        {% if activities %}
+        <ul class="list-group">
+            {% for activity in activities %}
+            <li class="list-group-item">
+                <strong>{{ activity.description }}</strong> <br>
+                <em>Details:</em> {{ activity.details }} <br>
+                <em>Assigned to:</em> {{ activity.user_profile.name }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No activities associated with this narrative.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Botones de acción -->
+<div>
+    <a href="{{ url_for('narratives_bp.manage_narratives') }}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

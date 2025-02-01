@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Perfil Ficticio{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">Edit User Profile Details</div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=user_profile.id) }}">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user_profile.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <input type="text" class="form-control" id="role" name="role" value="{{ user_profile.role }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="behavior_pattern" class="form-label">Behavior Pattern</label>
+                <textarea class="form-control" id="behavior_pattern" name="behavior_pattern" rows="2">{{ user_profile.behavior_pattern }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="narrative_id" class="form-label">Narrative</label>
+                <select class="form-control" id="narrative_id" name="narrative_id" required>
+                    {% for narrative in narratives %}
+                    <option value="{{ narrative.id }}" {% if narrative.id == user_profile.narrative_id %}selected{% endif %}>
+                        {{ narrative.title }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{{ url_for('user_profiles_bp.manage_user_profiles') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

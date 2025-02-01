@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Statistics</h3>
+<div class="card mb-4">
+    <div class="card-header"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="activities_per_narrative" style="width: 100%; height: 400px;"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="activities_per_profile" style="width: 100%; height: 400px;"></div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <script>
+        fetch('/statistics/activities_per_narrative')
+            .then(response => response.json())
+            .then(data => {
+                const narratives = data.map(item => item.narrative);
+                const activities = data.map(item => item.activities);
+
+                Plotly.newPlot('activities_per_narrative', [{
+                    x: narratives,
+                    y: activities,
+                    type: 'bar'
+                }], { title: 'Activities by Narrative' });
+            });
+
+        fetch('/statistics/activities_per_profile')
+            .then(response => response.json())
+            .then(data => {
+                const profiles = data.map(item => item.profile);
+                const activities = data.map(item => item.activities);
+
+                Plotly.newPlot('activities_per_profile', [{
+                    x: profiles,
+                    y: activities,
+                    type: 'bar'
+                }], { title: 'Activities by Profile' });
+            });
+    </script>
+{% endblock %}

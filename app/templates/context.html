@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Context{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Manage UEBA Context</h1>
+
+<!-- Collapsible Upload Context Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <button class="btn text-decoration-none" data-bs-toggle="collapse" data-bs-target="#uploadContextSection">
+            Upload EVTX Log
+        </button>
+    </div>
+    <div id="uploadContextSection" class="collapse">
+        <div class="card-body">
+            <form id="uploadContextForm" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="contextFile" class="form-label">Select EVTX File</label>
+                    <input type="file" class="form-control" id="contextFile" name="file" accept=".evtx" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+            <div id="uploadStatus" class="mt-3">
+                <span id="uploadingText" style="display:none;">
+                    <strong>Processing...</strong> <span id="pendingLines">Calculating...</span> lines remaining
+                </span>
+                <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display:none;">
+                    <span class="visually-hidden">Uploading...</span>
+                </div>
+            </div>
+            <div id="uploadResponse" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Controls -->
+<div class="mb-3">
+    <select id="filterSelect" class="form-select" onchange="filterJSON()">
+        <option value="all">Show All</option>
+        <option value="usernames">Usernames</option>
+        <option value="ip_addresses">IP Addresses</option>
+        <option value="devices">Devices</option>
+        <option value="work_hours">Work Hours</option>
+        <option value="login_frequencies">Login Frequencies</option>
+    </select>
+</div>
+
+<!-- View Current Context -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Current UEBA Context</span>
+        <button id="downloadContextBtn" class="btn btn-sm btn-success">Download JSON</button>
+    </div>
+    <div class="card-body">
+        <pre id="contextData" class="json-container">{{ context_data | tojson(indent=4) }}</pre>
+    </div>
+</div>
+
+<!-- Beautify JSON with Collapsible Viewer -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+<script>
+    document.getElementById('uploadContextForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        document.getElementById("uploadingText").style.display = "inline-block";
+        document.getElementById("loadingSpinner").style.display = "inline-block";
+        document.getElementById("pendingLines").textContent = "Calculating...";
+
+        const formData = new FormData(event.target);
+        const response = await fetch('/context/upload_progress', {
+            method: 'POST',
+            body: formData
+        });
+
+        const reader = response.body.getReader();
+        let decoder = new TextDecoder("utf-8");
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            let textChunk = decoder.decode(value);
+
+            let match = textChunk.match(/data: (\d+)/);
+            if (match) {
+                let remainingLines = parseInt(match[1]);
+                document.getElementById("pendingLines").textContent = remainingLines;
+            }
+        }
+
+        document.getElementById("uploadResponse").textContent = "Upload Complete!";
+        document.getElementById("uploadingText").style.display = "none";
+        document.getElementById("loadingSpinner").style.display = "none";
+        setTimeout(() => window.location.reload(), 2000);
+    });
+
+    // Pretty Print JSON
+    let originalJSON = "";
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        let jsonContainer = document.getElementById("contextData");
+        originalJSON = JSON.parse(jsonContainer.textContent);
+        jsonContainer.textContent = JSON.stringify(originalJSON, null, 4);
+        jsonContainer.classList.add("language-json");
+        Prism.highlightElement(jsonContainer);
+    });
+
+    // Filter Functionality
+    function filterJSON() {
+    let selectedFilter = document.getElementById("filterSelect").value;
+    let jsonContainer = document.getElementById("contextData");
+
+    if (selectedFilter === "all") {
+        jsonContainer.textContent = JSON.stringify(originalJSON, null, 4);
+    } else {
+        let filteredData = {};
+        if (originalJSON[selectedFilter]) {
+            filteredData[selectedFilter] = originalJSON[selectedFilter];
+        }
+        jsonContainer.textContent = JSON.stringify(filteredData, null, 4);
+    }
+    Prism.highlightElement(jsonContainer);
+    }
+
+    // Download JSON
+    document.getElementById("downloadContextBtn").addEventListener("click", function () {
+    const jsonData = document.getElementById("contextData").textContent;
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "context.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    });
+</script>
+
+<style>
+    /* JSON Viewer Styles */
+    .json-container {
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: monospace;
+        overflow-x: auto;
+        max-height: 500px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to BUDA{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Welcome to Behavioral User-driven Deceptive Activities Framework</h2>
+<p class="lead">Use the navigation menu to explore the functionalities.</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <a href="/narratives" class="btn btn-primary btn-block">Manage Narratives</a>
+    </div>
+    <div class="col-md-4">
+        <a href="/user_profiles" class="btn btn-secondary btn-block">User Profiles</a>
+    </div>
+    <div class="col-md-4">
+        <a href="/statistics/dashboard" class="btn btn-info btn-block">Statistics</a>
+    </div>
+</div>
+{% endblock %}
