@@ -2,13 +2,13 @@
 <h4 align="center"><i>Behavioral User-driven Deceptive Activities</i></h4>
 
 <hr>
-
 <div align="center">
+<br>
 
-    [![GitHub License](https://img.shields.io/github/license/Base4Security/BUDA)]
-    [![GitHub release](https://img.shields.io/github/release/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/releases/)
-    [![GitHub issues](https://img.shields.io/github/issues/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/issues/)
-    [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/pull/)
+[![License](https://img.shields.io/badge/license-GPL-blue.svg)](/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/releases/)
+[![GitHub issues](https://img.shields.io/github/issues/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/pull/)
 
 </div>
 
