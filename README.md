@@ -4,7 +4,12 @@
 <hr>
 
 <div align="center">
-    [![License](https://img.shields.io/badge/license-GPL-blue.svg)](/LICENSE)
+
+    ![GitHub License](https://img.shields.io/github/license/Base4Security/BUDA)
+    [![GitHub release](https://img.shields.io/github/release/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/releases/)
+    [![GitHub issues](https://img.shields.io/github/issues/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/issues/)
+    [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/pull/)
+
 </div>
 
 ## About
