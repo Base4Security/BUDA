@@ -27,8 +27,12 @@ def manage_activities():
         return redirect(url_for('activity_bp.manage_activities'))
 
     # Obtener todas las actividades y perfiles para mostrarlas
-    activities = Activity.query.all()
-    user_profiles = UserProfile.query.all()
+    try:
+        activities = Activity.query.all()
+        user_profiles = UserProfile.query.all()
+    except:
+        return jsonify({"error": "Something is wrong or Database table missing. Recreate it on /settings`."}), 500
+       
     return render_template('activities.html', activities=activities, user_profiles=user_profiles)
 
 @activities_bp.route('/edit/<int:activity_id>', methods=['GET', 'POST'])

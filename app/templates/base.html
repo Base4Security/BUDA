@@ -24,29 +24,28 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <!-- Context -->
                     <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
                         <a class="nav-link" href="/context">Context</a>
                     </li>
-                    <!-- Narratives -->
                     <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
                         <a class="nav-link" href="/narratives/">Narratives</a>
                     </li>
-                    <!-- User Profiles -->
                     <li class="nav-item {% if request.path.startswith('/user_profiles') %}active{% endif %}">
                         <a class="nav-link" href="/user_profiles">User Profiles</a>
                     </li>
-                    <!-- Activities -->
                     <li class="nav-item {% if request.path.startswith('/activities') %}active{% endif %}">
                         <a class="nav-link" href="/activities">Activities</a>
                     </li>
-                    <!-- Statistics -->
                     <li class="nav-item {% if request.path.startswith('/statistics') %}active{% endif %}">
                         <a class="nav-link" href="/statistics/dashboard">Statistics</a>
                     </li>
                 </ul>
+            </div>
+            <div class="d-flex">
+                <a href="/settings" class="btn btn-outline-light me-2">Settings</a>
             </div>
         </div>
     </nav>

@@ -78,21 +78,48 @@
     return false; // Prevent form submission
     }
     document.getElementById('generateUserProfileButton').addEventListener('click', async () => {
-        alert('Generating honey user profile...is coming soon');
-        return;
+
+        if (document.getElementById('name').value != '' && document.getElementById('role').value != '' && document.getElementById('behavior_pattern').value != '') {
+            alert('You need to leave at least one field on blank to generate a user profile');
+            return;
+        }
+
         const narrativeId = document.getElementById('narrativeSelect').value;
-        const response = await fetch('/user_profiles/generate', { 
+        if (narrativeId == '') {
+            alert('You need to select a narrative');
+            return;
+        }
+        const name = document.getElementById('name').value;
+        const role = document.getElementById('role').value;
+        const behaviorPattern = document.getElementById('behavior_pattern').value;
+
+        const response = await fetch('/ai/generate/user_profile', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                name: name,
+                role: role,
+                behavior_pattern: behaviorPattern,
                 narrative_id: narrativeId
             }),
         });
         const result = await response.json();
-        document.getElementById('generateResponse').textContent = result.message || result.error;
-        setTimeout(() => {
-            window.location.reload();
-        }, 3000);
+        console.log('Result: ');
+        console.log(result);
+        document.getElementById('generateResponse').textContent = "User profile generated!" || result.error;
+        
+        // Convert to json and extract data from the result and fill the form
+        jsonResult = JSON.parse(result.message);
+        console.log(jsonResult);
+        if (document.getElementById('name').value == '') {
+            document.getElementById('name').value = jsonResult.complete_name || '';
+        }
+        if (document.getElementById('role').value == '') {
+            document.getElementById('role').value = jsonResult.role || '';
+        }
+        if (document.getElementById('behavior_pattern').value == '') {
+            document.getElementById('behavior_pattern').value = jsonResult.behavior_pattern || '';
+        }
     });
 </script>    
 {% endblock %}

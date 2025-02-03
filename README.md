@@ -27,34 +27,28 @@
 
 ## 🛠️ Installation & Setup
 ### **1️⃣ Clone the Repository**
-    ```bash
-    git clone https://github.com/Base4Security/BUDA.git
-    cd BUDA
-    ```
+```bash
+git clone https://github.com/Base4Security/BUDA.git
+cd BUDA
+```
 
 ### **2️⃣ Create a Virtual Environment**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
 ### **3️⃣ Install Dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-### **4️⃣ Set Up the Database**
-
-    ```bash
-    python init_db.py
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ### **5️⃣ Start the Application**
-    ```bash
-        python run.py
-    ```
+```bash
+python run.py
+```
 
-Now, visit **`http://127.0.0.1:5000/`** in your browser.
+Now, visit **`http://127.0.0.1:5000/`** in your browser and enjoy!
 
 ---
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, jsonify, Response, stream_with_context
 import os
 import json
-from app.utils import extract_ueba_from_evtx, update_context_file
+from app.utils.context_utils import extract_ueba_from_evtx, update_context_file
 from werkzeug.utils import secure_filename
 from Evtx.Evtx import Evtx
 

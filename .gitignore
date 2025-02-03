@@ -9,6 +9,7 @@ venv*
 *.pyc
 
 context.json
+config_llm.json
 buda.db
 
 __pycache__/

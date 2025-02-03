@@ -31,7 +31,10 @@ def manage_narratives():
         return redirect(url_for('narratives_bp.manage_narratives'))
 
     # Fetch attacker profiles from the database
-    narratives = Narrative.query.all()  # Fetch existing narratives
+    try:
+        narratives = Narrative.query.all()
+    except:
+        return jsonify({"error": "Something is wrong or Database table missing. Recreate it on /settings`."}), 500
     return render_template('narratives.html', narratives=narratives)
 
 @narratives_bp.route('/delete/<int:narrative_id>', methods=['POST'])

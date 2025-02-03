@@ -35,8 +35,8 @@ def create_app():
     from .routes.ai_integration import ai_bp
     app.register_blueprint(ai_bp, url_prefix='/ai')
 
-    from flask_migrate import Migrate
-    migrate = Migrate(app, db)
+    from .routes.settings import settings_bp
+    app.register_blueprint(settings_bp, url_prefix='/settings')
 
     return app
 

@@ -1,13 +1,17 @@
 from flask import Blueprint, request, jsonify, current_app
 import openai
+import re
 import os
 from app.models.user import UserProfile
 from app.models.narrative import Narrative
 from app.models.activity import Activity
 
+from app.utils.llm_utils import get_llm_response
+
+
 ai_bp = Blueprint('ai', __name__)
 
-CONTEXT_FILE = 'context.txt'
+CONTEXT_FILE = 'context.json'
 
 def load_context():
     if not os.path.exists(CONTEXT_FILE):
@@ -25,7 +29,8 @@ def upload_context():
     file.save(CONTEXT_FILE)
     return jsonify({"message": f"Context saved successfully in {CONTEXT_FILE}"}), 200
 
-@ai_bp.route('/generate', methods=['POST'])
+######### Para borrar
+@ai_bp.route('/generate/old', methods=['POST'])
 def generate():
     context = load_context()
 
@@ -99,3 +104,51 @@ def generate():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
+
+# END PARA BORRAR
+
+@ai_bp.route('/generate/user_profile', methods=['POST'])
+def generate_user_profile():
+    print("Generate User Profile")
+    data = request.json
+    narrative_id = data.get('narrative_id')
+    if not narrative_id:
+        return jsonify({"error": "Missing narrative_id in request"}), 400
+    narrative = Narrative.query.get_or_404(narrative_id)
+    print("Narrative")
+    print(narrative)
+    name = data.get('name')
+    role = data.get('role')
+    behavior_pattern = data.get('behavior_pattern')
+
+    context = load_context()
+
+    # Fetch elements based on the section
+    section_elements = ""
+    percentage_of_similarity = "100"
+    # Generar el prompt para el modelo
+    user_profile_prompt = """
+                            Generate a new honey user profile 
+                            user_profile_context { complete_name: """ + f" {name}" + """, role: """ + f" {role}" + """, behavior_pattern: """ + f" {behavior_pattern}" + """ }
+                            The user its a honey user that is a fake user that is used to attract attackers.
+                            Use the context and thee user_profile_context as a reference not to be copied. Do not use the context data.
+                            The user profile is""" + f" {percentage_of_similarity}" + """% similar to the context.
+                            
+                            The user profile must use the next base:
+                            { complete_name: "name lastname", role: "organization role", behavior_pattern: "some pattern" }
+                            - Name is the name and lastname of a user. Its a human name. Use the context as a reference for choosing a name.
+                            - Role is the role of the user. Its a typical organization role. Use the context as a reference for choosing a role.
+                            - The Behavior Pattern is a brief description of typical activities in the envinronment. It describe the user behavior in the system. Use the context as a reference for choosing a behavior pattern.
+
+                            Return the profile in JSON object in plain text.
+                        """
+
+    messages = [
+        {"role": "system", "content": "You are a helpful cybersecurity proffesional that generates structured data"},
+        {"role": "user", "content": f" Context:\n {context} \n\n {user_profile_prompt}\n"}
+    ]    
+    ## Divide in a new function
+
+    result = get_llm_response(messages)
+
+    return jsonify({"message": result}), 200
