@@ -11,20 +11,20 @@ activities_bp = Blueprint('activities_bp', __name__)
 def manage_activities():
     if request.method == 'POST':
         # Recibir datos del formulario
-        description = request.form.get('description')
+        activity_type = request.form.get('activity_type')
         details = request.form.get('details')
         user_profile_id = int(request.form.get('user_profile_id'))
 
         # Crear y guardar la actividad
         new_activity = Activity(
-            description=description,
+            activity_type=activity_type,
             details=details,
             user_profile_id=user_profile_id
         )
         db.session.add(new_activity)
         db.session.commit()
 
-        return redirect(url_for('activity_bp.manage_activities'))
+        return redirect(url_for('activities_bp.manage_activities'))
 
     # Obtener todas las actividades y perfiles para mostrarlas
     try:
@@ -41,12 +41,12 @@ def edit_activity(activity_id):
 
     if request.method == 'POST':
         # Actualizar datos de la actividad
-        activity.description = request.form.get('description')
+        activity.activity_type = request.form.get('activity_type')
         activity.details = request.form.get('details')
         activity.user_profile_id = int(request.form.get('user_profile_id'))
 
         db.session.commit()
-        return redirect(url_for('activity_bp.manage_activities'))
+        return redirect(url_for('activities_bp.manage_activities'))
 
     # Renderizar el formulario de edición con los datos de la actividad
     user_profiles = UserProfile.query.all()
@@ -57,7 +57,7 @@ def delete_activity(activity_id):
     activity = Activity.query.get_or_404(activity_id)
     db.session.delete(activity)
     db.session.commit()
-    return redirect(url_for('activity_bp.manage_activities'))
+    return redirect(url_for('activities_bp.manage_activities'))
 
 @activities_bp.route('/generate', methods=['POST'])
 def generate_activity():
@@ -71,37 +71,37 @@ def generate_activity():
         
         # Recursive function to find keys regardless of case
         def search_keys(obj):
-            description = None
+            activity_type = None
             details = None
             
             if isinstance(obj, dict):
                 for key, value in obj.items():
                     key_lower = key.lower()
-                    if key_lower == "description":
-                        description = value
+                    if key_lower == "activity_type":
+                        activity_type = value
                     elif key_lower == "details":
                         details = value
                     elif isinstance(value, (dict, list)):
                         # Recursively search nested objects or lists
                         sub_result = search_keys(value)
-                        description = description or sub_result.get("description")
+                        activity_type = activity_type or sub_result.get("activity_type")
                         details = details or sub_result.get("details")
             elif isinstance(obj, list):
                 for item in obj:
                     sub_result = search_keys(item)
-                    description = description or sub_result.get("description")
+                    activity_type = activity_type or sub_result.get("activity_type")
                     details = details or sub_result.get("details")
             
-            return {"description": description, "details": details}
+            return {"activity_type": activity_type, "details": details}
 
         # Search for the keys in the parsed data
         result = search_keys(profile_data)
 
-        description = result["description"]
+        activity_type = result["activity_type"]
         details = result["details"]
 
         new_profile = Activity(
-            description=description,
+            activity_type=activity_type,
             details=details,
             user_profile_id=user_profile_id
         )

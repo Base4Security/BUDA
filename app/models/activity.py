@@ -5,7 +5,7 @@ class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_profile_id = db.Column(db.Integer, db.ForeignKey('user_profiles.id'), nullable=False)
     timestamp = db.Column(db.DateTime, server_default=db.func.now())
-    description = db.Column(db.Text, nullable=False)
+    activity_type = db.Column(db.Text, nullable=False)
     details = db.Column(db.Text, nullable=True)  # JSON o string con detalles adicionales
 
     # Relación con el perfil de usuario
@@ -16,6 +16,6 @@ class Activity(db.Model):
             'id': self.id,
             'user_profile_id': self.user_profile_id,
             'timestamp': self.timestamp.isoformat(),
-            'description': self.description,
+            'activity_type': self.activity_type,
             'details': self.details
         }

@@ -185,3 +185,43 @@ def generate_user_profile():
     result = get_llm_response(messages)
 
     return jsonify({"message": result}), 200
+
+@ai_bp.route('/generate/activity', methods=['POST'])
+def generate_activity():
+    data = request.json
+    user_profile_id = data.get('user_profile_id')
+    if not user_profile_id:
+        return jsonify({"error": "Missing user_profile_id in request"}), 400
+    user_profile = UserProfile.query.get_or_404(user_profile_id)
+
+    activity_type = data.get('activity_type')
+    details = data.get('details')
+
+    context = load_context()
+
+    percentage_of_similarity = "100"
+    # Generate the prompt for the model
+
+    activity_prompt = """
+                        Generate a new honey activity type
+                        activity_context { activity_type: """ + f" {activity_type}" + """, details: """ + f" {details}" + """ }
+                        The activity type its a honey activity type that is a fake activity that is used to attract attackers.
+                        Use the context and thee activity_context as a reference not to be copied. Do not use the context data.
+                        The activity type is""" + f" {percentage_of_similarity}" + """% similar to the context.
+
+                        The activity type must use the next base:
+                        { activity_type: "activity_type", details: "details" }
+                        - activity_type is the title of the type of a normal user activity based on the context elements. Its a brief description of the activity. Use the context as a reference for choosing a description.
+                        - Details is a string describing the activity. Its a brief description of the activity. Use the context as a reference for choosing details.
+
+                        Return the activity in JSON object in plain text.
+                    """
+    
+    messages = [
+        {"role": "system", "content": "You are a helpful cybersecurity proffesional that generates structured data"},
+        {"role": "user", "content": f" Context:\n {context} \n\n {activity_prompt}\n"}
+    ]
+
+    result = get_llm_response(messages)
+
+    return jsonify({"message": result}), 200

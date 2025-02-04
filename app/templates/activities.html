@@ -47,8 +47,8 @@
     <div class="card-body">
         <form method="POST" action="{{ url_for('activities_bp.manage_activities') }}">
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="2" required></textarea>
+                <label for="activity_type" class="form-label">Activity Type</label>
+                <textarea class="form-control" id="activity_type" name="activity_type" rows="2" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="details" class="form-label">Details</label>
@@ -73,8 +73,8 @@
 <script>
     document.getElementById('generateActivityButton').addEventListener('click', async () => {
 
-        if (document.getElementById('description').value != '' && document.getElementById('details').value != '') {
-            alert('You need to leave at least one field on blank to generate a user profile');
+        if (document.getElementById('activity_type').value != '' && document.getElementById('details').value != '') {
+            alert('You need to leave at least one field on blank to generate a new activity type');
             return;
         }
 
@@ -84,26 +84,26 @@
             return;
         }
 
-        const description = document.getElementById('description').value;
+        const activity_type = document.getElementById('activity_type').value;
         const details = document.getElementById('details').value;
         
-        const response = await fetch('/ai/generate/activities', {
+        const response = await fetch('/ai/generate/activity', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 user_profile_id: user_profile_id,
-                description: description,
+                activity_type: activity_type,
                 details: details
             }),
         });
         const result = await response.json();
 
-        document.getElementById('generateResponse').textContent = "User profile generated!" || result.error;
+        document.getElementById('generateResponse').textContent = "Activity type generated!" || result.error;
 
         jsonResult = JSON.parse(result.message);
 
-        if (document.getElementById('description').value == '') {
-            document.getElementById('description').value = jsonResult.description;
+        if (document.getElementById('activity_type').value == '') {
+            document.getElementById('activity_type').value = jsonResult.activity_type;
         }
         if (document.getElementById('details').value == '') {
             document.getElementById('details').value = jsonResult.details;
