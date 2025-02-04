@@ -116,7 +116,7 @@
         jsonResult = JSON.parse(result.message);
         console.log(jsonResult);
         if (document.getElementById('title').value == '') {
-            document.getElementById('title').value = jsonResult.complete_name || '';
+            document.getElementById('title').value = jsonResult.title || '';
         }
         if (document.getElementById('objective').value == '') {
             document.getElementById('objective').value = jsonResult.objective || '';
