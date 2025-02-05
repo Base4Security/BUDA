@@ -4,6 +4,7 @@ from app import db
 import requests
 import json
 from datetime import datetime
+from app.utils.narrative_worker import start_narrative, stop_narrative
 
 narratives_bp = Blueprint('narratives_bp', __name__)
 
@@ -84,3 +85,15 @@ def generate_narrative():
         return jsonify({"message": "Narrative generated and saved successfully", "narrative": narrative_data}), 200
     except (KeyError, ValueError):
         return jsonify({"error": "Invalid response format from AI"}), 400
+
+@narratives_bp.route('/start/<int:narrative_id>', methods=['POST'])
+def start_narrative_route(narrative_id):
+    """Starts a narrative."""
+    result = start_narrative(narrative_id)
+    return jsonify(result)
+
+@narratives_bp.route('/stop/<int:narrative_id>', methods=['POST'])
+def stop_narrative_route(narrative_id):
+    """Stops a narrative."""
+    result = stop_narrative(narrative_id)
+    return jsonify(result)

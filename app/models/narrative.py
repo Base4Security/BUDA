@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Narrative(db.Model):
     __tablename__ = 'narratives'
@@ -9,6 +10,7 @@ class Narrative(db.Model):
     deception_activities = db.Column(db.Text, nullable=True)
     end_date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    is_running = db.Column(db.Boolean, default=True)
 
     user_profiles = db.relationship('UserProfile', back_populates='narrative', cascade='all, delete-orphan')
 
@@ -24,3 +26,6 @@ class Narrative(db.Model):
             'user_profiles': [profile.to_dict() for profile in self.user_profiles],
             'reports': [report.to_dict() for report in self.reports]
         }
+    
+    def __repr__(self):
+        return f'<Narrative {self.title} Runnning: {self.is_running}>'

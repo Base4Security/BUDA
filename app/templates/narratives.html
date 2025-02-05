@@ -15,6 +15,11 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ narrative.title }}</strong> - {{ narrative.objective }}
+                    {% if narrative.is_running %}
+                    <span class="badge bg-success">Running</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Stopped</span>
+                    {% endif %}
                 </div>
                 <div>
                     <a href="{{ url_for('narrative_review_bp.review_narrative', narrative_id=narrative.id) }}" class="btn btn-info btn-sm me-2">Review</a>
@@ -22,6 +27,11 @@
                     <form method="POST" action="{{ url_for('narratives_bp.delete_narrative', narrative_id=narrative.id) }}" style="display: inline;"  onsubmit="return confirmDelete(this);">
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </form>
+                    {% if narrative.is_running %}
+                    <button class="btn btn-danger btn-sm" onclick="stopNarrative({{ narrative.id }})">Stop</button>
+                    {% else %}
+                    <button class="btn btn-success btn-sm" onclick="startNarrative({{ narrative.id }})">Run</button>
+                    {% endif %}
                 </div>
             </li>
             
@@ -129,5 +139,21 @@
         }
     });
     
+    function startNarrative(narrativeId) {
+        fetch(`/narratives/start/${narrativeId}`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .then(() => location.reload())
+            .catch(error => alert("Error starting narrative: " + error));
+    }
+
+    function stopNarrative(narrativeId) {
+        fetch(`/narratives/stop/${narrativeId}`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .then(() => location.reload())
+            .catch(error => alert("Error stopping narrative: " + error));
+    }
+
 </script>    
 {% endblock %}
