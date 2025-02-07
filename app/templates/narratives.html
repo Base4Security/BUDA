@@ -13,8 +13,8 @@
         <ul class="list-group">
             {% for narrative in narratives %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <strong>{{ narrative.title }}</strong> - {{ narrative.objective }}
+                <div class="narrative-title">
+                    <strong>{{ narrative.title[:45] }}{% if narrative.title|length > 45 %}...{% endif %}</strong> - {{ narrative.objective[:75] }}{% if narrative.objective|length > 75 %}...{% endif %}
                     {% if narrative.is_running %}
                     <span class="badge bg-success">Running</span>
                     {% else %}
@@ -22,15 +22,18 @@
                     {% endif %}
                 </div>
                 <div>
-                    <a href="{{ url_for('narrative_review_bp.review_narrative', narrative_id=narrative.id) }}" class="btn btn-info btn-sm me-2">Review</a>
-                    <a href="{{ url_for('narratives_bp.edit_narrative', narrative_id=narrative.id) }}" class="btn btn-warning btn-sm me-2">Edit</a>
-                    <form method="POST" action="{{ url_for('narratives_bp.delete_narrative', narrative_id=narrative.id) }}" style="display: inline;"  onsubmit="return confirmDelete(this);">
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                    <button class="btn btn-danger btn-sm delete-btn" id="deleteBtn-{{ narrative.id }}" 
+                            onmousedown="startHoldDelete({{ narrative.id }},'narratives')"
+                            onmouseup="cancelHoldDelete({{ narrative.id }})"
+                            onmouseleave="cancelHoldDelete({{ narrative.id }})">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <a href="{{ url_for('narrative_review_bp.review_narrative', narrative_id=narrative.id) }}" class="btn btn-info btn-sm"> <i class="fa fa-eye" aria-hidden="true"></i> </a>
+                    <a href="{{ url_for('narratives_bp.edit_narrative', narrative_id=narrative.id) }}" class="btn btn-warning btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i> </a>
                     {% if narrative.is_running %}
-                    <button class="btn btn-danger btn-sm" onclick="stopNarrative({{ narrative.id }})">Stop</button>
+                    <button class="btn btn-danger btn-sm" onclick="stopNarrative({{ narrative.id }})"> <i class="fa fa-stop-circle" aria-hidden="true"></i></button>
                     {% else %}
-                    <button class="btn btn-success btn-sm" onclick="startNarrative({{ narrative.id }})">Run</button>
+                    <button class="btn btn-success btn-sm" onclick="startNarrative({{ narrative.id }})"> <i class="fa fa-play" aria-hidden="true"></i> </button>
                     {% endif %}
                 </div>
             </li>
@@ -87,15 +90,7 @@
 
 {% block scripts %}
 <script>
-    // Function to confirm narrative deletion
-    function confirmDelete(form) {
-    const confirmMessage = "Are you sure you want to delete this narrative? This action cannot be undone.";
-    if (confirm(confirmMessage)) {
-        return true; // Proceed with form submission
-    }
-    return false; // Prevent form submission
-    }
-
+    
     // Function to generate a narrative
     document.getElementById('generateNarrativeButton').addEventListener('click', async () => {
         if (document.getElementById('title').value != '' && document.getElementById('objective').value != '' && document.getElementById('attacker_profile').value != '' && document.getElementById('deception_activities').value != '') {
@@ -154,6 +149,6 @@
             .then(() => location.reload())
             .catch(error => alert("Error stopping narrative: " + error));
     }
-
+    
 </script>    
 {% endblock %}

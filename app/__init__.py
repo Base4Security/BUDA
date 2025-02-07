@@ -37,6 +37,6 @@ def create_app():
 
     from .routes.settings import settings_bp
     app.register_blueprint(settings_bp, url_prefix='/settings')
-
+    
     return app
 

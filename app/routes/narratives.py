@@ -18,6 +18,7 @@ def manage_narratives():
         deception_activities = request.form.get('deception_activities')
         end_date_str = request.form.get('end_date')
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+        is_running = False
 
         # Save the narrative (example)
         new_narrative = Narrative(
@@ -25,7 +26,8 @@ def manage_narratives():
             objective=objective,
             attacker_profile=attacker_profile,
             deception_activities=deception_activities,
-            end_date=end_date
+            end_date=end_date,
+            is_running=is_running
         )
         db.session.add(new_narrative)
         db.session.commit()

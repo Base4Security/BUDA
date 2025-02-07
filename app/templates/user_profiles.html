@@ -17,10 +17,14 @@
                     <strong>{{ profile.name }}</strong> -  Role: {{ profile.role }} (Narrative: {{ profile.narrative.title }})
                 </div>
                 <div>
-                    <a href="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=profile.id) }}" class="btn btn-warning btn-sm me-2">Edit</a>
-                    <form method="POST" action="{{ url_for('user_profiles_bp.delete_user_profile', user_profile_id=profile.id) }}" style="display: inline;"  onsubmit="return confirmDelete(this);">
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                    <button class="btn btn-danger btn-sm delete-btn" id="deleteBtn-{{ profile.id }}" 
+                    onmousedown="startHoldDelete({{ profile.id }},'user_profiles')"
+                    onmouseup="cancelHoldDelete({{ profile.id }})"
+                    onmouseleave="cancelHoldDelete({{ profile.id }})">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <a href="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=profile.id) }}" class="btn btn-info btn-sm"> <i class="fa fa-eye" aria-hidden="true"></i> </a>
+                    <a href="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=profile.id) }}" class="btn btn-warning btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 </div>
             </li>
             {% endfor %}
