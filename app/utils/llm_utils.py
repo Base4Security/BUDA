@@ -1,7 +1,7 @@
 import openai
 import requests
 import re
-from flask import current_app, jsonify
+from flask import jsonify
 from app.utils.config_utils import load_llm_config
 
 def get_llm_response(messages, model="gpt-3.5-turbo", provider="openai"):

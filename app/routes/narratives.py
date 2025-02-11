@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, Response
 from app.models.narrative import Narrative
 from app import db
 import requests
 import json
 from datetime import datetime
 from app.utils.narrative_worker import start_narrative, stop_narrative
+import time
 
 narratives_bp = Blueprint('narratives_bp', __name__)
 
@@ -33,7 +34,7 @@ def manage_narratives():
         db.session.commit()
         return redirect(url_for('narratives_bp.manage_narratives'))
 
-    # Fetch attacker profiles from the database
+    # Fetch narratives from the database
     try:
         narratives = Narrative.query.all()
     except:
@@ -99,3 +100,23 @@ def stop_narrative_route(narrative_id):
     """Stops a narrative."""
     result = stop_narrative(narrative_id)
     return jsonify(result)
+
+# Streaming Logs
+
+event_streams = {}
+
+def event_stream(narrative_id):
+    """Yields real-time execution logs."""
+    while True:
+        with open("logs/narrative_execution.log", "r") as log_file:
+            lines = log_file.readlines()
+            relevant_logs = [line for line in lines if f"[Narrative ID: {narrative_id}]" in line]
+
+        if relevant_logs:
+            yield f"data: {relevant_logs[-1]}\n\n"
+        time.sleep(2)
+
+@narratives_bp.route('/stream/<int:narrative_id>')
+def stream_logs(narrative_id):
+    """Streams real-time execution logs for a narrative."""
+    return Response(event_stream(narrative_id), mimetype="text/event-stream")

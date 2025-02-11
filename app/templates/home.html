@@ -3,8 +3,8 @@
 {% block title %}Welcome to BUDA{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Welcome to Behavioral User-driven Deceptive Activities Framework</h2>
-<p class="lead">Use the navigation menu to explore the functionalities.</p>
+<h2 class="mb-4">Behavioral User-driven Deceptive Activities Framework</h2>
+<br>
 
 <div class="row">
     <div class="col-md-4">
@@ -17,4 +17,46 @@
         <a href="/statistics/dashboard" class="btn btn-info btn-block">Statistics</a>
     </div>
 </div>
+
+<br>
+
+<div class="card">
+    <div class="card-header">Narratives</div>
+    <div class="card-body">
+        {% if narratives %}
+        <ul class="list-group">
+            {% for narrative in narratives %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ narrative.title[:50] }}{% if narrative.title|length > 50 %}...{% endif %}</strong> - 
+                    {{ narrative.objective[:100] }}{% if narrative.objective|length > 100 %}...{% endif %}
+                </div>
+                <div>
+                    {% if narrative.is_running %}
+                    <span class="badge bg-success">Running</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Stopped</span>
+                    {% endif %}
+                </div>
+            </li>
+            <li>
+                <pre id="log-{{ narrative.id }}"></pre>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No narratives available.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function startLogStream(narrativeId) {
+        const eventSource = new EventSource(`/narratives/stream/${narrativeId}`);
+        eventSource.onmessage = function(event) {
+            document.getElementById(`log-${narrativeId}`).textContent += event.data + "\n";
+        };
+    }
+</script>
+
 {% endblock %}
