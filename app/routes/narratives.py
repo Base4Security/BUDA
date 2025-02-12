@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, Response
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, Response, send_file
 from app.models.narrative import Narrative
 from app import db
 import requests
@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 from app.utils.narrative_worker import start_narrative, stop_narrative
 import time
+import os
 
 narratives_bp = Blueprint('narratives_bp', __name__)
 
@@ -91,34 +92,75 @@ def generate_narrative():
 
 @narratives_bp.route('/start/<int:narrative_id>', methods=['POST'])
 def start_narrative_route(narrative_id):
-    """Starts a narrative."""
+    # Starts a narrative.
     result = start_narrative(narrative_id)
     return jsonify(result)
 
 @narratives_bp.route('/stop/<int:narrative_id>', methods=['POST'])
 def stop_narrative_route(narrative_id):
-    """Stops a narrative."""
+    # Stops a narrative.
     result = stop_narrative(narrative_id)
     return jsonify(result)
 
 # Streaming Logs
 
-event_streams = {}
+LOG_DIR = os.path.abspath("logs")
 
-def event_stream(narrative_id):
-    # Yields real-time execution logs for a specific narrative.
+def get_latest_log_files():
+    """
+    Returns a list of the latest log file(s) based on the current date and hour.
+    If no logs are found for the current hour, fetches from the previous hour.
+    """
+    files = [os.path.join(LOG_DIR, f) for f in os.listdir(LOG_DIR) if f.endswith(".log")]
+    files.sort(reverse=True)
+    return files[:2]
+
+def event_stream():
+    #Yields real-time execution logs from the latest available log files
+    last_lines = []
+
     while True:
-        with open("logs/narrative_execution.log", "r") as log_file:
-            lines = log_file.readlines()
-            relevant_logs = [line for line in lines if f"[Narrative ID: {narrative_id}]" in line]
+        log_files = get_latest_log_files()
+        log_files.sort(reverse=False)
+        all_logs = []
+        # Read from multiple log files (current & previous hour if needed)
+        for log_file in log_files:
+            with open(log_file, "r") as file:
+                all_logs.extend(file.readlines())
 
-        if relevant_logs:
-            yield f"data: {relevant_logs[-1]}\n\n"  # Send the latest log
-            print(f"Streaming logs for Narrative ID: {narrative_id}")
+        last_lines = all_logs[-20:]
+        last_lines.reverse()
 
-        time.sleep(2)
+        if last_lines:
+            for line in last_lines:
+                yield f"data: {line.strip()}\n\n"
+        
+        time.sleep(5)
 
-@narratives_bp.route('/stream/<int:narrative_id>')
-def stream_logs(narrative_id):
-    # Streams real-time execution logs for a narrative.
-    return Response(event_stream(narrative_id), mimetype="text/event-stream")
+@narratives_bp.route('/stream')
+def stream_logs():
+    """Streams real-time execution logs from time-based log files."""
+    return Response(event_stream(), mimetype="text/event-stream")
+
+def get_latest_log_filename():
+    """
+    Returns the latest log file based on the current hour.
+    """
+    now = datetime.now()
+    log_filename = os.path.join(LOG_DIR, now.strftime("%Y-%m-%d_%H") + ".log")
+    print
+    print(log_filename)
+    if os.path.exists(log_filename):
+        return log_filename
+    else:
+        return None  # No log file found for the current hour
+    
+@narratives_bp.route('/download-log', methods=['GET'])
+def download_log():
+    """Allows users to download the log file for the last hour."""
+    log_file = get_latest_log_filename()
+    print(log_file)
+    if log_file:
+        return send_file(log_file, as_attachment=True)
+    else:
+        return jsonify({"error": "No log file available for this hour."}), 404

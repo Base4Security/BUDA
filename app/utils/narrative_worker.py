@@ -45,7 +45,6 @@ def narrative_engine(narrative_id, app):
 
             for command in commands:
                 output = execute_command(narrative.id, "Test", command)
-                print(f"Output: {output}")
 
             time.sleep(10)
 

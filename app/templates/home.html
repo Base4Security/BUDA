@@ -20,7 +20,7 @@
 
 <br>
 
-<div class="card">
+<div class="card mb-4">
     <div class="card-header">Narratives</div>
     <div class="card-body">
         {% if narratives %}
@@ -39,9 +39,6 @@
                     {% endif %}
                 </div>
             </li>
-            <li>
-                <pre id="log-{{ narrative.id }}" class="log-container">Loading logs...</pre>
-            </li>
             {% endfor %}
         </ul>
         {% else %}
@@ -50,43 +47,45 @@
     </div>
 </div>
 
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Logs</span>
+        <button class="btn btn-sm btn-primary" onclick="downloadLog()"><i class="fa fa-download" aria-hidden="true"></i></button>
+    </div>
+    <div class="card-body">
+        <pre id="log-container" class="log-container">Loading logs...</pre>
+    </div>
+</div>
+
 <script>
 
-let eventSources = {};  // Store EventSource instances per narrative
+function startLogStream() {
+        const eventSource = new EventSource("/narratives/stream");
+        
+        eventSource.onmessage = function(event) {
+            let logContainer = document.getElementById("log-container");
+            let logLine = event.data;
 
-function startLogStream(narrativeId) {
-    console.log(`Starting log stream for Narrative ID: ${narrativeId}`);
-    if (eventSources[narrativeId]) return;  // Prevent duplicate streams
+            // Append new log line and keep only the last 20 lines
+            let logs = logContainer.textContent.split("\n");
+            logs.push(logLine);
+            if (logs.length > 20) logs.shift();  // Remove oldest logs to maintain last 10 lines
+            
+            logContainer.textContent = logs.join("\n");
+        };
 
-    const eventSource = new EventSource(`/narratives/stream/${narrativeId}`);
-    eventSources[narrativeId] = eventSource;
+        eventSource.onerror = function() {
+            console.error("Log stream disconnected.");
+            eventSource.close();
+        };
+    }
 
-    eventSource.onmessage = function(event) {
-        document.getElementById(`log-${narrativeId}`).textContent += event.data + "\n";
-    };
+    // ✅ Start streaming logs when the page loads
+    document.addEventListener("DOMContentLoaded", startLogStream);
 
-    eventSource.onerror = function() {
-        console.error(`Stream for Narrative ${narrativeId} disconnected.`);
-        eventSource.close();
-        delete eventSources[narrativeId];  // ✅ Clean up on error
-    };
-}
-
-// Start streaming logs for all running narratives on page load
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOMContentLoaded");
-    let runningNarratives = document.querySelectorAll(".bg-success");
-    console.log(runningNarratives);
-    runningNarratives.forEach(narrative => {
-        console.log(`Starting log stream for Narrative ID: ${narrative.parentElement.parentElement.id.replace("log-", "")}`);
-        console.log(narrative);
-        console.log(narrative.parentElement);
-        console.log(narrative.parentElement.parentElement);
-        console.log(narrative.parentElement.parentElement.id.replace("log-", ""));
-        let narrativeId = narrative.parentElement.parentElement.id.replace("narrative-", "");
-        startLogStream(narrativeId);
-    });
-});
+    function downloadLog() {
+        window.location.href = "narratives/download-log";
+    }
 
 </script>
 
