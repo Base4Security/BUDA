@@ -3,6 +3,7 @@ import os
 from app.models.user import UserProfile
 from app.models.narrative import Narrative
 from app.models.activity import Activity
+import json
 
 from app.utils.llm_utils import get_llm_response
 
@@ -39,7 +40,7 @@ def generate_narrative():
 
     percentage_of_similarity = "100"
 
-    # Generate the prompt for the model
+    # Generate the prompt
     narrative_prompt = """
                         Generate a new honey narrative
                         narrative_context { title: """ + f" {title}" + """, objective: """ + f" {objective}" + """, attacker_profile: """ + f" {attacker_profile}" + """, deception_activities: """ + f" {deception_activities}" + """ }
@@ -81,7 +82,8 @@ def generate_user_profile():
     context = load_context()
 
     percentage_of_similarity = "100"
-    # Generate the prompt for the model
+
+    # Generate the prompt
     user_profile_prompt = """
                             Generate a new honey user profile 
                             user_profile_context { complete_name: """ + f" {name}" + """, role: """ + f" {role}" + """, behavior_pattern: """ + f" {behavior_pattern}" + """ }
@@ -107,7 +109,7 @@ def generate_user_profile():
 
     return jsonify({"message": result}), 200
 
-@ai_bp.route('/generate/activity', methods=['POST'])
+@ai_bp.route('/generate/activitytype', methods=['POST'])
 def generate_activity():
     data = request.json
     user_profile_id = data.get('user_profile_id')
@@ -121,9 +123,9 @@ def generate_activity():
     context = load_context()
 
     percentage_of_similarity = "100"
-    # Generate the prompt for the model
 
-    activity_prompt = """
+    # Generate the prompt
+    activitytype_prompt = """
                         Generate a new honey activity type
                         activity_context { activity_type: """ + f" {activity_type}" + """, details: """ + f" {details}" + """ }
                         The activity type its a honey activity type that is a fake activity that is used to attract attackers.
@@ -140,9 +142,65 @@ def generate_activity():
     
     messages = [
         {"role": "system", "content": "You are a helpful cybersecurity proffesional that generates structured data"},
-        {"role": "user", "content": f" Context:\n {context} \n\n {activity_prompt}\n"}
+        {"role": "user", "content": f" Context:\n {context} \n\n {activitytype_prompt}\n"}
     ]
 
     result = get_llm_response(messages)
 
     return jsonify({"message": result}), 200
+
+@ai_bp.route('/generate_commands/<int:narrative_id>', methods=['POST'])
+def generate_ai_commands(narrative_id):
+    """Generates PowerShell commands dynamically using AI based on a narrative."""
+    
+    narrative = Narrative.query.get(narrative_id)
+    if not narrative:
+        return jsonify({"error": "Narrative not found"}), 404
+
+    # Organize User Profiles and Activity Types
+    user_profiles_data = {}
+    for profile in narrative.user_profiles:
+        activity_types = [activity.activity_type for activity in profile.activities]
+        user_profiles_data[profile.name] = activity_types
+
+    percentage_of_similarity = narrative.percentage_of_similarity
+
+    # Construct AI Prompt
+    commands_prompt = f"""
+        You are a cybersecurity expert generating PowerShell commands for a simulated cyber attack scenario.
+        Based on the following details, suggest 3 relevant PowerShell commands for each user profile.
+
+        - **Narrative Title:** {narrative.title}
+        - **Objective:** {narrative.objective}
+        - **Attacker Profile:** {narrative.attacker_profile}
+        - **Percentage of Similarity:** {narrative.percentage_of_similarity}%
+
+        The **percentage of similarity** defines how closely the commands should match the context:
+        - **100% similarity** means commands must be highly aligned to the scenario, matching the exact attack techniques described.
+        - **1% similarity** means commands should be loosely related, potentially exploratory or unexpected in this context.
+
+        Provide structured output in the format:
+        ```
+        {{ "commands": [ {{ "user_profile": "User1", "activity_type": "Recon", "commands": ["cmd1", "cmd2", "cmd3"] }}, ... ] }}
+        ```
+    """
+
+    # Add detailed breakdown per user profile
+    for user, activities in user_profiles_data.items():
+        commands_prompt += f"\n- **User Profile:** {user} \n  - Activity Types: {', '.join(activities)}\n"
+
+    messages = [
+        {"role": "system", "content": "You are a cybersecurity professional that generates structured JSON data."},
+        {"role": "user", "content": f"{commands_prompt}\n"}
+    ]
+
+    result = get_llm_response(messages)
+    
+    # Extract and return structured JSON response
+    try:
+        print(result)
+        print("#########################################################")
+        ai_response = json.loads(result)  # Parse JSON response from AI
+        return jsonify(ai_response)  # Return AI-generated structured output
+    except (json.JSONDecodeError, KeyError):
+        return jsonify({"error": "AI Response Failed or returned unstructured data"}), 500

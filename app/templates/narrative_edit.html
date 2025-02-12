@@ -23,6 +23,29 @@
                 <label for="deception_activities" class="form-label">Deception Activities</label>
                 <textarea class="form-control" id="deception_activities" name="deception_activities" rows="2" required>{{ narrative.deception_activities }}</textarea>
             </div>
+        
+            <div class="mb-3">
+                <label for="percentage_of_similarity" class="form-label">Similarity (0 to 100)</label>
+                    <div class="card mb-3 custom-div">
+                        <div class="card-body p-4">
+                            <input type="range" class="form-range" id="percentage_of_similarity" name="percentage_of_similarity" min="0" max="100" step="1" value="{{ narrative.percentage_of_similarity }}" oninput="document.getElementById('dialerValue').innerText = this.value">
+                            <span id="dialerValue">{{ narrative.percentage_of_similarity }}</span>
+                        </div>
+                    </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Activity Executor</label>
+                <div class="card mb-3 custom-div">
+                    <div class="card-body p-4">
+                        <label for="winrm_server" class="form-label">WinRM Server</label>
+                        <input type="text" class="form-control" id="winrm_server" name="winrm_server" required placeholder="http://remote-server:5985/wsman" value="{{ narrative.winrm_server }}">
+                        <label for="winrm_username" class="form-label">WinRM Username</label>
+                        <input type="text" class="form-control" id="winrm_username" name="winrm_username" required value="{{ narrative.winrm_username }}" >
+                        <label for="winrm_password" class="form-label">WinRM Password</label>
+                        <input type="password" class="form-control" id="winrm_password" name="winrm_password" required value="{{ narrative.winrm_password }}">
+                    </div>
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="end_date" class="form-label">End Date</label>
                 <input type="date" class="form-control" id="end_date" name="end_date"  value="{{ narrative.end_date }}" required>
@@ -32,4 +55,23 @@
         </form>
     </div>
 </div>
+
+<style>
+    .custom-div {
+      background-color: #f0f8ffa6; /* AliceBlue */
+    }
+
+    /* For Chrome, Safari, Opera, and Edge  */
+    input[type="range"]::-webkit-slider-runnable-track {
+        background: #212529;
+        height: 0.5rem;
+    }
+
+    /* For Firefox */
+    input[type="range"]::-moz-range-track {
+        background: #212529;
+        height: 0.5rem;
+    }
+
+</style>
 {% endblock %}

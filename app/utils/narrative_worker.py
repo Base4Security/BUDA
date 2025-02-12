@@ -25,14 +25,12 @@ def narrative_engine(narrative_id, app):
                 narrative.is_running = False
                 db.session.commit()
                 del narratives_to_stop[narrative.id]
-                print(f"The narrative {narrative.id} has been stopped manually.")
                 return
             
             # Check if the narrative has reached its end date
             if datetime.now().date() >= narrative.end_date:
                 narrative.is_running = False
                 db.session.commit()
-                print(f"The narrative has reached its end date.")
                 return
             
             # Code execution for the narrative
@@ -41,16 +39,16 @@ def narrative_engine(narrative_id, app):
             print(f"{datetime.now().date()} - Running Narrative {narrative.id} - {narrative.title} - End Date: {narrative.end_date}")
 
             from app.utils.behavior_engine import generate_commands
-            commands = generate_commands(narrative)
+            commands = generate_commands(narrative.id)
 
             for command in commands:
-                output = execute_command(narrative.id, "Test", command)
+                print(f"Command: {command}")
+                #output = execute_command(narrative, "Test", command)
+                #print(f"Command: {command} - Output: {output}")
 
             time.sleep(10)
 
             # End of the loop
-
-        print(f"Narrative has been stopped manually.")
 
 def start_narrative(narrative_id):
     """
@@ -66,6 +64,13 @@ def start_narrative(narrative_id):
         if datetime.now().date() >= narrative.end_date:
             return {"message": f"Narrative has already reached its end date"}
         
+        if not narrative.user_profiles:
+            return {"message": f"Narrative has no user profiles"}
+        
+        for narrative_user_profile in narrative.user_profiles:
+            if not narrative_user_profile.activities:
+                return {"message": f"User profile '{narrative_user_profile.name}' has no activity types"}
+
         narrative.is_running = True
         db.session.commit()
 
@@ -90,6 +95,6 @@ def stop_narrative(narrative_id):
         narrative.is_running = False
         db.session.commit()
         narratives_to_stop[narrative_id] = True
-        print(f"Narrative {narrative_id} has been queued for stopping.")
+        return {"message": f"Narrative '{narrative.title}' queued for stopping."}
 
-    return {"message": f"Narrative stopped"}
+    return

@@ -1,17 +1,18 @@
-import random
+import requests
+from flask import current_app
 
-def generate_commands(narrative):
+def generate_commands(narrative_id):
     """
-    Generates PowerShell commands based on the narrative.
+    Calls the AI integration route to generate PowerShell commands dynamically.
     """
-    predefined_commands = [
-        "Get-Process",
-        "Get-Service",
-        "Get-WmiObject Win32_ComputerSystem",
-        "Get-NetIPAddress",
-        "Get-EventLog -LogName Security -Newest 10"
-    ]
+    ai_url = f"http://127.0.0.1:5000/ai/generate_commands/{narrative_id}"
 
-    # Simulate dynamic command generation based on the narrative
-    generated_commands = random.sample(predefined_commands, 3)
-    return generated_commands
+    try:
+        response = requests.post(ai_url)
+        response.raise_for_status()
+
+        ai_data = response.json()
+        return ai_data.get("commands", ["Error: AI did not return commands"])
+
+    except requests.exceptions.RequestException as e:
+        return [f"Error: {str(e)}"]

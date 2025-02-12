@@ -11,9 +11,9 @@
         // Set timeout for 2 seconds before deleting
         holdTimeout[objectId] = setTimeout(() => {
             fetch(`/${objectType}/delete/${objectId}`, { method: "POST" })
-                .then(data => {
-                    window.location.reload(); // Refresh after deletion
-                })
+                .then(data => showModalMessage("Narrative deleted successfully!"))
+                .then(() => new Promise(resolve => setTimeout(resolve, 3000)))
+                .then(data => { window.location.reload(); })
                 .catch(error => alert("Error deleting object: " + error));
         }, 2000); // ✅ Delete only if held for 2 seconds
     }

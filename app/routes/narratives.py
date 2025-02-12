@@ -18,9 +18,13 @@ def manage_narratives():
         objective = request.form.get('objective')
         attacker_profile = request.form.get('attacker_profile')
         deception_activities = request.form.get('deception_activities')
+        percentage_of_similarity = request.form.get('percentage_of_similarity')
         end_date_str = request.form.get('end_date')
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
         is_running = False
+        winrm_server = request.form.get('winrm_server')
+        winrm_username = request.form.get('winrm_username')
+        winrm_password = request.form.get('winrm_password')
 
         # Save the narrative (example)
         new_narrative = Narrative(
@@ -28,6 +32,10 @@ def manage_narratives():
             objective=objective,
             attacker_profile=attacker_profile,
             deception_activities=deception_activities,
+            percentage_of_similarity=percentage_of_similarity,
+            winrm_server=winrm_server,
+            winrm_username=winrm_username,
+            winrm_password=winrm_password,
             end_date=end_date,
             is_running=is_running
         )
@@ -60,10 +68,13 @@ def edit_narrative(narrative_id):
         narrative.objective = request.form.get('objective')
         narrative.attacker_profile = request.form.get('attacker_profile')
         narrative.deception_activities = request.form.get('deception_activities')
+        narrative.percentage_of_similarity = request.form.get('percentage_of_similarity')
         end_date_str = request.form.get('end_date')
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
         narrative.end_date = end_date
-
+        narrative.winrm_server = request.form.get('winrm_server')
+        narrative.winrm_username = request.form.get('winrm_username')
+        narrative.winrm_password = request.form.get('winrm_password')
 
         db.session.commit()
         return redirect(url_for('narratives_bp.manage_narratives'))

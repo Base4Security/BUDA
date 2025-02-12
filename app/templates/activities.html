@@ -92,7 +92,7 @@
         const activity_type = document.getElementById('activity_type').value;
         const details = document.getElementById('details').value;
         
-        const response = await fetch('/ai/generate/activity', {
+        const response = await fetch('/ai/generate/activitytype', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

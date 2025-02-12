@@ -12,14 +12,11 @@ context.json
 config_llm.json
 buda.db
 *.log
+*.evtx
 
-logs/
 __pycache__/
 _build/
-test/
 migrations/
-uploads/
-extra/
 dist/*
 *egg-*
 *egg*
