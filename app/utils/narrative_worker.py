@@ -44,7 +44,6 @@ def narrative_engine(narrative_id, app):
             commands = generate_commands(narrative)
 
             for command in commands:
-                print(f"Executing command: {command}")
                 output = execute_command(narrative.id, "Test", command)
                 print(f"Output: {output}")
 

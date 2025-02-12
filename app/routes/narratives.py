@@ -106,17 +106,19 @@ def stop_narrative_route(narrative_id):
 event_streams = {}
 
 def event_stream(narrative_id):
-    """Yields real-time execution logs."""
+    # Yields real-time execution logs for a specific narrative.
     while True:
         with open("logs/narrative_execution.log", "r") as log_file:
             lines = log_file.readlines()
             relevant_logs = [line for line in lines if f"[Narrative ID: {narrative_id}]" in line]
 
         if relevant_logs:
-            yield f"data: {relevant_logs[-1]}\n\n"
+            yield f"data: {relevant_logs[-1]}\n\n"  # Send the latest log
+            print(f"Streaming logs for Narrative ID: {narrative_id}")
+
         time.sleep(2)
 
 @narratives_bp.route('/stream/<int:narrative_id>')
 def stream_logs(narrative_id):
-    """Streams real-time execution logs for a narrative."""
+    # Streams real-time execution logs for a narrative.
     return Response(event_stream(narrative_id), mimetype="text/event-stream")

@@ -26,7 +26,7 @@
         {% if narratives %}
         <ul class="list-group">
             {% for narrative in narratives %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li id="narrative-{{ narrative.id }}" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ narrative.title[:50] }}{% if narrative.title|length > 50 %}...{% endif %}</strong> - 
                     {{ narrative.objective[:100] }}{% if narrative.objective|length > 100 %}...{% endif %}
@@ -40,7 +40,7 @@
                 </div>
             </li>
             <li>
-                <pre id="log-{{ narrative.id }}"></pre>
+                <pre id="log-{{ narrative.id }}" class="log-container">Loading logs...</pre>
             </li>
             {% endfor %}
         </ul>
@@ -51,12 +51,56 @@
 </div>
 
 <script>
-    function startLogStream(narrativeId) {
-        const eventSource = new EventSource(`/narratives/stream/${narrativeId}`);
-        eventSource.onmessage = function(event) {
-            document.getElementById(`log-${narrativeId}`).textContent += event.data + "\n";
-        };
-    }
+
+let eventSources = {};  // Store EventSource instances per narrative
+
+function startLogStream(narrativeId) {
+    console.log(`Starting log stream for Narrative ID: ${narrativeId}`);
+    if (eventSources[narrativeId]) return;  // Prevent duplicate streams
+
+    const eventSource = new EventSource(`/narratives/stream/${narrativeId}`);
+    eventSources[narrativeId] = eventSource;
+
+    eventSource.onmessage = function(event) {
+        document.getElementById(`log-${narrativeId}`).textContent += event.data + "\n";
+    };
+
+    eventSource.onerror = function() {
+        console.error(`Stream for Narrative ${narrativeId} disconnected.`);
+        eventSource.close();
+        delete eventSources[narrativeId];  // ✅ Clean up on error
+    };
+}
+
+// Start streaming logs for all running narratives on page load
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOMContentLoaded");
+    let runningNarratives = document.querySelectorAll(".bg-success");
+    console.log(runningNarratives);
+    runningNarratives.forEach(narrative => {
+        console.log(`Starting log stream for Narrative ID: ${narrative.parentElement.parentElement.id.replace("log-", "")}`);
+        console.log(narrative);
+        console.log(narrative.parentElement);
+        console.log(narrative.parentElement.parentElement);
+        console.log(narrative.parentElement.parentElement.id.replace("log-", ""));
+        let narrativeId = narrative.parentElement.parentElement.id.replace("narrative-", "");
+        startLogStream(narrativeId);
+    });
+});
+
 </script>
+
+<style>
+    .log-container {
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: monospace;
+        overflow-x: auto;
+        max-height: 300px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+</style>
 
 {% endblock %}
