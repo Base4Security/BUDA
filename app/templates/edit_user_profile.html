@@ -20,12 +20,25 @@
                 <textarea class="form-control" id="behavior_pattern" name="behavior_pattern" rows="2">{{ user_profile.behavior_pattern }}</textarea>
             </div>
             <div class="mb-3">
-                <label for="narrative_id" class="form-label">Narrative</label>
-                <select class="form-control" id="narrative_id" name="narrative_id" required>
-                    {% for narrative in narratives %}
-                    <option value="{{ narrative.id }}" {% if narrative.id == user_profile.narrative_id %}selected{% endif %}>
-                        {{ narrative.title }}
-                    </option>
+                <label class="form-label">Activity Executor</label>
+                <div class="card mb-3 custom-div">
+                    <div class="card-body p-4">
+                        <label for="winrm_server" class="form-label">WinRM Server</label>
+                        <input type="text" class="form-control" id="winrm_server" name="winrm_server" required placeholder="http://remote-server:5985/wsman" value="{{ user_profile.winrm_server }}">
+                        <label for="winrm_username" class="form-label">WinRM Username</label>
+                        <input type="text" class="form-control" id="winrm_username" name="winrm_username" required value="{{ user_profile.winrm_username }}" >
+                        <label for="winrm_password" class="form-label">WinRM Password</label>
+                        <input type="password" class="form-control" id="winrm_password" name="winrm_password" required value="{{ user_profile.winrm_password }}">
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="narratives_id" class="form-label">Assigned Narrative</label>
+                <select multiple class="form-control" id="narratives_id" name="narratives_id">
+                    {% for narrative in all_narratives %}
+                        <option value="{{ narrative.id }}" {% if narrative in user_profile.narrative %}selected{% endif %}>
+                            {{ narrative.title }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>

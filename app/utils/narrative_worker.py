@@ -5,6 +5,7 @@ from flask import current_app
 from app import db
 from app.models import Narrative
 from app.utils.orchestrator import execute_command
+import random
 
 
 narratives_to_stop = {}
@@ -40,15 +41,23 @@ def narrative_engine(narrative_id, app):
 
             from app.utils.behavior_engine import generate_commands
             commands = generate_commands(narrative.id)
+            
+            try:
+                commands = commands["commands"]
+            except:
+                commands = commands
 
-            for command in commands:
-                print(f"Command: {command}")
-                #output = execute_command(narrative, "Test", command)
-                #print(f"Command: {command} - Output: {output}")
-
-            time.sleep(10)
-
-            # End of the loop
+            # Extract the commands
+            for command_set in commands:
+                user_profile = command_set["user_profile"]
+                for cmd in command_set["commands"]:
+                    print(f"{datetime.now().date()} - [NW]Executing command: {cmd}")
+                    output = execute_command(narrative,  user_profile, cmd)
+    
+            # Sleep random time between 30 and 600 seconds
+            sleep_time = random.randint(30, 600)
+            print(f"{datetime.now().date()} - [NW]Sleeping for {sleep_time} seconds")
+            time.sleep(sleep_time)
 
 def start_narrative(narrative_id):
     """

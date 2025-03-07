@@ -8,20 +8,20 @@
     <div class="card-body">
         <form method="POST" action="{{ url_for('activities_bp.edit_activity', activity_id=activity.id) }}">
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="2" required>{{ activity.description }}</textarea>
+                <label for="activity_type" class="form-label">Activity Type</label>
+                <input class="form-control" id="activity_type" name="activity_type" rows="2" required value="{{ activity.activity_type }}"></input>
             </div>
             <div class="mb-3">
                 <label for="details" class="form-label">Details</label>
                 <textarea class="form-control" id="details" name="details" rows="2">{{ activity.details }}</textarea>
             </div>
             <div class="mb-3">
-                <label for="user_profile_id" class="form-label">User Profile</label>
-                <select class="form-control" id="user_profile_id" name="user_profile_id" required>
-                    {% for profile in user_profiles %}
-                    <option value="{{ profile.id }}" {% if profile.id == activity.user_profile_id %}selected{% endif %}>
-                        {{ profile.name }}
-                    </option>
+                <label for="user_profiles" class="form-label">Assigned User Profiles</label>
+                <select multiple class="form-control" id="user_profiles" name="user_profiles">
+                    {% for profile in all_user_profiles %}
+                        <option value="{{ profile.id }}" {% if profile in activity.user_profiles %}selected{% endif %}>
+                            {{ profile.name }} ({{ profile.role }})
+                        </option>
                     {% endfor %}
                 </select>
             </div>

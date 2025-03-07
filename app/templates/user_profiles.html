@@ -14,7 +14,7 @@
             {% for profile in user_profiles %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <strong>{{ profile.name }}</strong> -  Role: {{ profile.role }} (Narrative: {{ profile.narrative.title }})
+                    <strong>{{ profile.name }}</strong> -  Role: {{ profile.role }}
                 </div>
                 <div>
                     <button class="btn btn-danger btn-sm delete-btn" id="deleteBtn-{{ profile.id }}" 
@@ -23,7 +23,6 @@
                     onmouseleave="cancelHoldDelete({{ profile.id }})">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
-                    <a href="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=profile.id) }}" class="btn btn-info btn-sm"> <i class="fa fa-eye" aria-hidden="true"></i> </a>
                     <a href="{{ url_for('user_profiles_bp.edit_user_profile', user_profile_id=profile.id) }}" class="btn btn-warning btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 </div>
             </li>
@@ -63,10 +62,25 @@
                 <textarea class="form-control" id="behavior_pattern" name="behavior_pattern" rows="2"></textarea>
             </div>
             <div class="mb-3">
-                <label for="narrative_id" class="form-label">Narrative</label>
-                <select class="form-control" id="narrativeSelect" name="narrative_id" required>
-                    {% for narrative in narratives %}
-                    <option value="{{ narrative.id }}">{{ narrative.title }}</option>
+                <label class="form-label">Activity Executor</label>
+                <div class="card mb-3 custom-div">
+                    <div class="card-body p-4">
+                        <label for="winrm_server" class="form-label">WinRM Server</label>
+                        <input type="text" class="form-control" id="winrm_server" name="winrm_server" required placeholder="http://remote-server:5985/wsman">
+                        <label for="winrm_username" class="form-label">WinRM Username</label>
+                        <input type="text" class="form-control" id="winrm_username" name="winrm_username" required>
+                        <label for="winrm_password" class="form-label">WinRM Password</label>
+                        <input type="password" class="form-control" id="winrm_password" name="winrm_password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="narratives_id" class="form-label">Assigned Narratives</label>
+                <select multiple class="form-control" id="narratives_id" name="narratives_id">
+                    {% for narrative in all_narratives %}
+                        <option value="{{ narrative.id }}">
+                            {{ narrative.title }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
@@ -75,12 +89,30 @@
     </div>
 </div>
 
+<style>
+    .custom-div {
+      background-color: #f0f8ffa6; /* AliceBlue */
+    }
+
+    /* For Chrome, Safari, Opera, and Edge  */
+    input[type="range"]::-webkit-slider-runnable-track {
+        background: #212529;
+        height: 0.5rem;
+    }
+
+    /* For Firefox */
+    input[type="range"]::-moz-range-track {
+        background: #212529;
+        height: 0.5rem;
+    }
+
+</style>
 {% endblock %}
 
 {% block scripts %}
 <script>
     // Function to confirm narrative deletion
-        function confirmDelete(form) {
+    function confirmDelete(form) {
     const confirmMessage = "Are you sure you want to delete this user? This action cannot be undone.";
     if (confirm(confirmMessage)) {
         return true; // Proceed with form submission
@@ -94,7 +126,7 @@
             return;
         }
 
-        const narrativeId = document.getElementById('narrativeSelect').value;
+        const narrativeId = document.getElementById('narratives_id').value;
         if (narrativeId == '') {
             alert('You need to select a narrative');
             return;

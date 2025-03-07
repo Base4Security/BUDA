@@ -9,9 +9,9 @@
 <div class="card mb-4">
     <div class="card-header">Types of Activities</div>
     <div class="card-body">
-        {% if activities %}
+        {% if all_activities %}
         <ul class="list-group">
-            {% for activity in activities %}
+            {% for activity in all_activities %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ activity.activity_type[:25] }} {% if activity.activity_type|length > 25 %}...{% endif %}</strong> - {{ activity.details[:95] }} {% if activity.activity_type|length > 95 %}...{% endif %}
@@ -23,9 +23,7 @@
                     onmouseleave="cancelHoldDelete({{ activity.id }})">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
-
-                    <a href="{{ url_for('activities_bp.edit_activity', activity_id=activity.id) }}" class="btn btn-info btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                    <a href="{{ url_for('activities_bp.edit_activity', activity_id=activity.id) }}" class="btn btn-warning btn-sm"> <i class="fa fa-eye" aria-hidden="true"></i> </a>
+                    <a href="{{ url_for('activities_bp.edit_activity', activity_id=activity.id) }}" class="btn btn-warning btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 </div>
             </li>
             {% endfor %}
@@ -53,17 +51,19 @@
         <form method="POST" action="{{ url_for('activities_bp.manage_activities') }}">
             <div class="mb-3">
                 <label for="activity_type" class="form-label">Activity Type</label>
-                <textarea class="form-control" id="activity_type" name="activity_type" rows="2" required></textarea>
+                <input class="form-control" id="activity_type" name="activity_type" rows="2" required></input>
             </div>
             <div class="mb-3">
                 <label for="details" class="form-label">Details</label>
                 <textarea class="form-control" id="details" name="details" rows="2"></textarea>
             </div>
             <div class="mb-3">
-                <label for="user_profile_id" class="form-label">User Profile</label>
-                <select class="form-control" id="userProfileSelect" name="user_profile_id" required>
-                    {% for profile in user_profiles %}
-                    <option value="{{ profile.id }}">{{ profile.name }}</option>
+                <label for="user_profiles" class="form-label">Assigned User Profiles</label>
+                <select multiple class="form-control" id="user_profiles" name="user_profiles">
+                    {% for profile in all_user_profiles %}
+                        <option value="{{ profile.id }}">
+                            {{ profile.name }} ({{ profile.role }})
+                        </option>
                     {% endfor %}
                 </select>
             </div>

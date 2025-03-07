@@ -9,12 +9,12 @@
 <div class="card mb-4">
     <div class="card-header">Narratives</div>
     <div class="card-body">
-        {% if narratives %}
+        {% if all_narratives %}
         <ul class="list-group">
-            {% for narrative in narratives %}
+            {% for narrative in all_narratives %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="narrative-title">
-                    <strong>{{ narrative.id }} - {{ narrative.title[:45] }}{% if narrative.title|length > 45 %}...{% endif %}</strong> - {{ narrative.objective[:75] }}{% if narrative.objective|length > 75 %}...{% endif %}
+                    <strong>{{ narrative.id }} - {{ narrative.title[:40] }}{% if narrative.title|length > 40 %}...{% endif %}</strong> - {{ narrative.objective[:70] }}{% if narrative.objective|length > 70 %}...{% endif %}
                     {% if narrative.is_running %}
                     <span class="badge bg-success">Running</span>
                     {% else %}
@@ -87,21 +87,18 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">Activity Executor</label>
-                <div class="card mb-3 custom-div">
-                    <div class="card-body p-4">
-                        <label for="winrm_server" class="form-label">WinRM Server</label>
-                        <input type="text" class="form-control" id="winrm_server" name="winrm_server" required placeholder="http://remote-server:5985/wsman">
-                        <label for="winrm_username" class="form-label">WinRM Username</label>
-                        <input type="text" class="form-control" id="winrm_username" name="winrm_username" required>
-                        <label for="winrm_password" class="form-label">WinRM Password</label>
-                        <input type="password" class="form-control" id="winrm_password" name="winrm_password" required>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
                 <label for="end_date" class="form-label">End Date</label>
                 <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <div class="mb-3">
+                <label for="user_profiles" class="form-label">Assigned User Profiles</label>
+                <select multiple class="form-control" id="user_profiles" name="user_profiles">
+                    {% for profile in all_user_profiles %}
+                        <option value="{{ profile.id }}">
+                            {{ profile.name }} ({{ profile.role }})
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Create Narrative</button>
         </form>
@@ -148,7 +145,7 @@
 
 {% block scripts %}
 <script>
-    
+
     // Function to generate a narrative
     document.getElementById('generateNarrativeButton').addEventListener('click', async () => {
         if (document.getElementById('title').value != '' && document.getElementById('objective').value != '' && document.getElementById('attacker_profile').value != '' && document.getElementById('deception_activities').value != '') {

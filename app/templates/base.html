@@ -34,25 +34,28 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
-                        <a class="nav-link" href="/context">Context</a>
+                    <li class="nav-item" {% if request.path == '' %}active{% endif %}>
+                        <a class="nav-link" href="/">Dashboard</a>
                     </li>
-                    <li class="nav-item {% if request.path.startswith('/narratives') %}active{% endif %}">
+                    <li class="nav-item">
                         <a class="nav-link" href="/narratives/">Narratives</a>
                     </li>
-                    <li class="nav-item {% if request.path.startswith('/user_profiles') %}active{% endif %}">
+                    <li class="nav-item">
                         <a class="nav-link" href="/user_profiles">User Profiles</a>
                     </li>
-                    <li class="nav-item {% if request.path.startswith('/activities') %}active{% endif %}">
+                    <li class="nav-item">
                         <a class="nav-link" href="/activities">Activities</a>
                     </li>
-                    <li class="nav-item {% if request.path.startswith('/statistics') %}active{% endif %}">
+                    <li class="nav-item">
                         <a class="nav-link" href="/statistics/dashboard">Statistics</a>
                     </li>
                 </ul>
             </div>
             <div class="d-flex">
-                <a href="/settings" class="btn btn-outline-light me-2">
+                <a href="/context" class="btn btn-outline-light me-2"  title="Modify the context">
+                    <i class="fa-solid fa-cubes"></i>
+                </a>
+                <a href="/settings" class="btn btn-outline-light me-2"  title="Settings">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>

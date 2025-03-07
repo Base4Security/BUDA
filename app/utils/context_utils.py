@@ -50,8 +50,6 @@ def extract_ueba_from_evtx(evtx_path):
 
             # Extract login timestamps (Event ID 4624 = Logon)
             if event_id == "4624":
-                print('##############TIME##############')
-                print(xml_string)
                 time_match = re.search(r"Time Created=\"(\d{2}):(\d{2})", xml_string)
                 if time_match:
                     hour = int(time_match.group(1))
@@ -60,13 +58,11 @@ def extract_ueba_from_evtx(evtx_path):
             # Extract IP Addresses
             ip_match = re.search(r"Source Network Address:\s*(\d+\.\d+\.\d+\.\d+)", xml_string)
             if ip_match:
-                print('##############IP##############')
                 ip_addresses.add(ip_match.group(1))
 
             # Extract Device Name
             device_match = re.search(r"Workstation Name:\s*([\w-]+)", xml_string)
             if device_match:
-                print('##############DEVICE##############')
                 devices.add(device_match.group(1))
 
     extracted_data = {

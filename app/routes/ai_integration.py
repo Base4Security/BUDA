@@ -198,9 +198,7 @@ def generate_ai_commands(narrative_id):
     
     # Extract and return structured JSON response
     try:
-        print(result)
-        print("#########################################################")
-        ai_response = json.loads(result)  # Parse JSON response from AI
-        return jsonify(ai_response)  # Return AI-generated structured output
+        ai_response = json.loads(result)
+        return jsonify(ai_response)
     except (json.JSONDecodeError, KeyError):
         return jsonify({"error": "AI Response Failed or returned unstructured data"}), 500

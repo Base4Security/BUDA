@@ -34,21 +34,18 @@
                     </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">Activity Executor</label>
-                <div class="card mb-3 custom-div">
-                    <div class="card-body p-4">
-                        <label for="winrm_server" class="form-label">WinRM Server</label>
-                        <input type="text" class="form-control" id="winrm_server" name="winrm_server" required placeholder="http://remote-server:5985/wsman" value="{{ narrative.winrm_server }}">
-                        <label for="winrm_username" class="form-label">WinRM Username</label>
-                        <input type="text" class="form-control" id="winrm_username" name="winrm_username" required value="{{ narrative.winrm_username }}" >
-                        <label for="winrm_password" class="form-label">WinRM Password</label>
-                        <input type="password" class="form-control" id="winrm_password" name="winrm_password" required value="{{ narrative.winrm_password }}">
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
                 <label for="end_date" class="form-label">End Date</label>
                 <input type="date" class="form-control" id="end_date" name="end_date"  value="{{ narrative.end_date }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="user_profiles" class="form-label">Assigned User Profiles</label>
+                <select multiple class="form-control" id="user_profiles" name="user_profiles">
+                    {% for profile in all_user_profiles %}
+                        <option value="{{ profile.id }}" {% if profile in narrative.user_profiles %}selected{% endif %}>
+                            {{ profile.name }} ({{ profile.role }})
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
             <button type="submit" class="btn btn-success">Save Changes</button>
             <a href="{{ url_for('narratives_bp.manage_narratives') }}" class="btn btn-secondary">Cancel</a>
@@ -74,4 +71,11 @@
     }
 
 </style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+</script>
+
 {% endblock %}

@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from .narratives_user_profiles import narratives_user_profiles
 
 class Narrative(db.Model):
     __tablename__ = 'narratives'
@@ -11,12 +11,9 @@ class Narrative(db.Model):
     end_date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     percentage_of_similarity = db.Column(db.Float, default=0.0)
-    winrm_server = db.Column(db.String(100), nullable=False)
-    winrm_username = db.Column(db.String(100), nullable=False)
-    winrm_password = db.Column(db.String(100), nullable=False)
     is_running = db.Column(db.Boolean, default=True)
 
-    user_profiles = db.relationship('UserProfile', back_populates='narrative', cascade='all, delete-orphan')
+    user_profiles = db.relationship('UserProfile', secondary=narratives_user_profiles, back_populates='narrative')
 
     def to_dict(self):
         return {
@@ -28,12 +25,7 @@ class Narrative(db.Model):
             'end_date': self.end_date.isoformat(),
             'created_at': self.created_at,
             'user_profiles': [profile.to_dict() for profile in self.user_profiles],
-            'percentage_of_similarity': self.percentage_of_similarity,
-            'winrm': {
-                'server': self.winrm_server,
-                'username': self.winrm_username,
-                'password': self.winrm_password
-            }
+            'percentage_of_similarity': self.percentage_of_similarity
         }
     
     def __repr__(self):

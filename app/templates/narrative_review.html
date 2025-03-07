@@ -25,7 +25,8 @@
             {% for profile in user_profiles %}
             <li class="list-group-item">
                 <strong>{{ profile.name }}</strong> - Role: {{ profile.role }} <br>
-                <em>Behavior Pattern:</em> {{ profile.behavior_pattern }}
+                <em>Behavior Pattern:</em> {{ profile.behavior_pattern }} <br>
+                <em>WinRM:</em> Server: {{ profile.winrm_server }} - Username: {{ profile.winrm_username }}
             </li>
             {% endfor %}
         </ul>

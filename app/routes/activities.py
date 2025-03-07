@@ -10,47 +10,55 @@ activities_bp = Blueprint('activities_bp', __name__)
 @activities_bp.route('/', methods=['GET', 'POST'])
 def manage_activities():
     if request.method == 'POST':
-        # Recibir datos del formulario
+        # Get data from the form
         activity_type = request.form.get('activity_type')
         details = request.form.get('details')
-        user_profile_id = int(request.form.get('user_profile_id'))
+
+        # Handle User Profiles (Multiple)
+        user_profile_ids = request.form.getlist('user_profiles')
+        user_profiles = UserProfile.query.filter(UserProfile.id.in_(user_profile_ids)).all()
 
         # Crear y guardar la actividad
         new_activity = Activity(
             activity_type=activity_type,
             details=details,
-            user_profile_id=user_profile_id
         )
+
+        new_activity.user_profiles = user_profiles
+
         db.session.add(new_activity)
         db.session.commit()
 
         return redirect(url_for('activities_bp.manage_activities'))
 
-    # Obtener todas las actividades y perfiles para mostrarlas
+    # Fetch all activities and user profiles
     try:
-        activities = Activity.query.all()
-        user_profiles = UserProfile.query.all()
+        all_activities = Activity.query.all()
+        all_user_profiles = UserProfile.query.all()
     except:
         return jsonify({"error": "Something is wrong or Database table missing. Recreate it on /settings`."}), 500
        
-    return render_template('activities.html', activities=activities, user_profiles=user_profiles)
+    return render_template('activities.html', all_activities=all_activities, all_user_profiles=all_user_profiles)
 
 @activities_bp.route('/edit/<int:activity_id>', methods=['GET', 'POST'])
 def edit_activity(activity_id):
     activity = Activity.query.get_or_404(activity_id)
+    all_user_profiles = UserProfile.query.all()
 
     if request.method == 'POST':
         # Actualizar datos de la actividad
         activity.activity_type = request.form.get('activity_type')
         activity.details = request.form.get('details')
-        activity.user_profile_id = int(request.form.get('user_profile_id'))
+        # Handle User Profiles (Multiple)
+        user_profile_ids = request.form.getlist('user_profiles')
+        user_profiles = UserProfile.query.filter(UserProfile.id.in_(user_profile_ids)).all()
+        activity.user_profiles = user_profiles
 
         db.session.commit()
         return redirect(url_for('activities_bp.manage_activities'))
 
     # Renderizar el formulario de edición con los datos de la actividad
-    user_profiles = UserProfile.query.all()
-    return render_template('edit_activities.html', activity=activity, user_profiles=user_profiles)
+    return render_template('edit_activities.html', activity=activity, all_user_profiles=all_user_profiles)
 
 @activities_bp.route('/delete/<int:activity_id>', methods=['POST'])
 def delete_activity(activity_id):

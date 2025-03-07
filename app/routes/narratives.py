@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, Response, send_file
 from app.models.narrative import Narrative
+from app.models.user import UserProfile
 from app import db
 import requests
 import json
@@ -13,7 +14,7 @@ narratives_bp = Blueprint('narratives_bp', __name__)
 @narratives_bp.route('/', methods=['GET', 'POST'])
 def manage_narratives():
     if request.method == 'POST':
-        # Handle narrative creation
+        # Get data from the form
         title = request.form.get('title')
         objective = request.form.get('objective')
         attacker_profile = request.form.get('attacker_profile')
@@ -22,33 +23,36 @@ def manage_narratives():
         end_date_str = request.form.get('end_date')
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
         is_running = False
-        winrm_server = request.form.get('winrm_server')
-        winrm_username = request.form.get('winrm_username')
-        winrm_password = request.form.get('winrm_password')
 
-        # Save the narrative (example)
+        # Handle User Profiles (Multiple)
+        user_profile_ids = request.form.getlist('user_profiles')
+        user_profiles = UserProfile.query.filter(UserProfile.id.in_(user_profile_ids)).all()
+
+        # Save the narrative
         new_narrative = Narrative(
             title=title,
             objective=objective,
             attacker_profile=attacker_profile,
             deception_activities=deception_activities,
             percentage_of_similarity=percentage_of_similarity,
-            winrm_server=winrm_server,
-            winrm_username=winrm_username,
-            winrm_password=winrm_password,
             end_date=end_date,
-            is_running=is_running
+            is_running=is_running,
         )
+
+        new_narrative.user_profiles = user_profiles
+
         db.session.add(new_narrative)
         db.session.commit()
+        
         return redirect(url_for('narratives_bp.manage_narratives'))
 
     # Fetch narratives from the database
     try:
-        narratives = Narrative.query.all()
+        all_narratives = Narrative.query.all()
+        all_user_profiles = UserProfile.query.all()
     except:
         return jsonify({"error": "Something is wrong or Database table missing. Recreate it on /settings`."}), 500
-    return render_template('narratives.html', narratives=narratives)
+    return render_template('narratives.html', all_narratives=all_narratives, all_user_profiles=all_user_profiles)
 
 @narratives_bp.route('/delete/<int:narrative_id>', methods=['POST'])
 def delete_narrative(narrative_id):
@@ -61,7 +65,8 @@ def delete_narrative(narrative_id):
 def edit_narrative(narrative_id):
     # Obtener la narrativa existente
     narrative = Narrative.query.get_or_404(narrative_id)
-
+    all_user_profiles = UserProfile.query.all()
+    
     if request.method == 'POST':
         # Actualizar los datos de la narrativa
         narrative.title = request.form.get('title')
@@ -72,15 +77,17 @@ def edit_narrative(narrative_id):
         end_date_str = request.form.get('end_date')
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
         narrative.end_date = end_date
-        narrative.winrm_server = request.form.get('winrm_server')
-        narrative.winrm_username = request.form.get('winrm_username')
-        narrative.winrm_password = request.form.get('winrm_password')
 
+        # Handle User Profiles (Multiple)
+        user_profile_ids = request.form.getlist('user_profiles')
+        user_profiles = UserProfile.query.filter(UserProfile.id.in_(user_profile_ids)).all()
+        narrative.user_profiles = user_profiles
+    
         db.session.commit()
         return redirect(url_for('narratives_bp.manage_narratives'))
-
+    
     # Renderizar el formulario de edición con los datos de la narrativa
-    return render_template('narrative_edit.html', narrative=narrative)
+    return render_template('narrative_edit.html', narrative=narrative, all_user_profiles=all_user_profiles)
 
 @narratives_bp.route('/generate', methods=['POST'])
 def generate_narrative():

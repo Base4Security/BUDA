@@ -15,6 +15,12 @@
             <div id="activities_per_profile" style="width: 100%; height: 400px;"></div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6" style="margin-left: 50px;">
+            <h4>Narratives per Profile</h4>
+            <ul id="narratives_per_profile"></ul>
+        </div>
+    </div>
 </div>
     <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
     <script>
@@ -28,7 +34,7 @@
                     x: narratives,
                     y: activities,
                     type: 'bar'
-                }], { title: 'Activities by Narrative' });
+                }], { title: 'Activity types by Narrative' });
             });
 
         fetch('/statistics/activities_per_profile')
@@ -41,7 +47,19 @@
                     x: profiles,
                     y: activities,
                     type: 'bar'
-                }], { title: 'Activities by Profile' });
+                }], { title: 'Activity types by Profile' });
+            });
+            
+            fetch("/statistics/narratives_per_profile")
+            .then(response => response.json())
+            .then(data => {
+                let list = document.getElementById("narratives_per_profile");
+                list.innerHTML = "";
+                data.forEach(item => {
+                    let li = document.createElement("li");
+                    li.textContent = `${item.profile}: Involved in ${item.narratives} narratives`;
+                    list.appendChild(li);
+                });
             });
     </script>
 {% endblock %}
