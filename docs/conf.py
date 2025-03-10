@@ -1,28 +1,42 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+import sys
+import os
+import re
+import sphinx_rtd_theme
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+# Add autodoc extension
+extensions = [
+    'sphinx_rtd_theme',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon',
+    'sphinx_toolbox.confval',
+    'sphinx_copybutton',
+]
 
+pygments_style = 'sphinx'
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+
+# Set up paths to include your project's Python modules
+sys.path.insert(0, os.path.abspath('../src/'))
+
+# Project information
 project = 'BUDA'
-copyright = '2025, BASE4 Security'
+slug = re.sub(r'\W+', '-', project.lower())
+version = "1.0"
+release = "1.0"
+language = 'en'
 author = 'BASE4 Security'
-release = '1.0'
+copyright = author
 
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-extensions = []
-
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-
-
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
-html_theme = 'alabaster'
-html_static_path = ['_static']
+# Theme options
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+    'logo_only': True,
+    'navigation_depth': 3,
+    'style_nav_header_background': 'black',
+    'display_version': False,
+}
+html_logo = "images/logo.png"
+html_show_sourcelink = True
+html_show_copyright = True

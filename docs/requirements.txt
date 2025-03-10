@@ -1,0 +1,14 @@
+myst_parser
+Sphinx
+sphinx-rtd-theme
+sphinx-toolbox
+sphinx-copybutton
+
+# BUDA requirements
+flask
+flask-sqlalchemy
+python-dotenv
+requests
+openai
+python-evtx
+pywinrm
