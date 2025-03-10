@@ -1,30 +1,29 @@
 Introduction
 ============
 
-Welcome to BUDA - Behavioral User-driven Deceptive Activities Framework. BUDA is a cutting-edge solution designed to enhance deception operations in cybersecurity by automating the simulation of realistic user behaviors within decoy environments. By integrating strategic narratives, dynamic user profiles, and automated activity simulation, BUDA aims to create credible decoys that mislead attackers and strengthen defense mechanisms.
+Welcome to BUDA - Behavioral User-driven Deceptive Activities Framework. BUDA is a cutting-edge solution designed to enhance deception operations in cybersecurity by automating the simulation of realistic user behaviors within decoy environments. By integrating strategic narratives, dynamic user profiles, and automated activity simulation, BUDA aims to model credible decoys that mislead attackers and strengthen defense mechanisms.
 
 Key Objectives
 --------------
 - **Automate Deception Operations:**  
   Simulate human-like interactions to generate realistic activity traces.
 - **Enhance Credibility:**  
-  Create decoy systems that closely mimic real user environments, making detection by adversaries more difficult.
+  Add value to decoys systems that closely mimic real user environments, making detection by adversaries more difficult.
 - **Integrate with Strategic Frameworks:**  
-  Align operations with established guidelines (e.g., MITRE Engage) to support robust cyber defense strategies.
+  Align operations with established guidelines to support robust cyber defense strategies.
 
-Architecture Overview
+Objets & Architecture Overview
 ---------------------
-The BUDA framework is structured into several core components, each playing a vital role in the simulation and management of deceptive activities:
+BUDA framework is structured into several core components, each playing a vital role in the simulation and management of deceptive activities:
 
 - **Narratives:** Define the operational scenarios and strategic context for deception.
-- **User Profiles:** Generate and manage realistic decoy identities.
-- **Activities:** Automate and schedule user-like actions to create authentic digital footprints.
-- **Context:** Establish the operational environment and integrate real-world data to support simulation accuracy.
-- **Configuration:** Customize global settings and parameters to tailor the framework to specific environments.
+- **User Profiles:** Manage realistic honeyuser identities.
+- **Activities Types:** Define user-like actions to create authentic digital footprints.
+- **Context:** Integrate real-world environmental data to support simulation accuracy.
 
 Below is a high-level architecture diagram illustrating how these components interconnect within BUDA:
 
-.. image:: /path/to/your/architecture_screenshot_placeholder.png
+.. image:: /images/schema.png
    :alt: BUDA Architecture Diagram
    :align: center
    :width: 80%

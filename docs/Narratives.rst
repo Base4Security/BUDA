@@ -3,7 +3,7 @@ Narratives
 
 Overview
 --------
-In the BUDA framework, narratives are the backbone of every deception operation. They provide the strategic context and guidelines that shape the behavior of simulated user profiles and decoy assets. A well-defined narrative not only guides the automated generation of activities but also helps align the simulation with real-world.
+In BUDA framework, narratives are the backbone of every deception operation. They provide the strategic context and guidelines that shape the behavior of simulated user profiles and decoy assets. A well-defined narrative not only guides the automated generation of activities but also helps align the simulation with real-world.
 
 Key Components
 --------------
