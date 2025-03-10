@@ -3,55 +3,34 @@ Configuration
 
 Overview
 --------
-The BUDA framework can be finely tuned through configuration settings that govern how the system behaves in different environments. These settings allow you to customize global parameters, narrative rules, user profiles, simulated activities, and contextual information. Proper configuration ensures that BUDA’s deception operations align with your specific security requirements and operational environment.
+In the Settings menu, you can manage several configurations arround the BUDA arquitecture.
 
-Configuration Files and Environment Variables
+LLM Configuration
 -----------------------------------------------
 BUDA supports configuration via files (e.g., YAML or Python settings files) and environment variables. Key configuration areas include:
 
-- **Global Settings:**  
-  General application parameters such as logging levels, database connections, and default operational parameters.
+- **LLM Provider:** The LLM provider to use for the command generation and the assistance. BUDA supports OpenAi integration and LM Studio (running your own local model).
 
-- **Narrative Settings:**  
-  Rules and parameters that define the behavior of deception narratives. This includes setting the similarity threshold for activities, defining temporal limits, and specifying the duration of narrative execution.
+- **Model Name:** The name of the model to use from the LLM provider.
 
-- **User Profile Options:**  
-  Parameters to customize the simulated user identities. These settings include default roles, work hours, and variability in behavior to ensure realistic interactions.
+- **OpenAi Api Key:** The API key for the OpenAi API. (If you choose to use OpenAi)
 
-- **Activity Simulation Settings:**  
-  Controls for scheduling and executing simulated activities, including the frequency of actions and the degree of randomness applied to avoid predictable patterns.
+- **LM Studio URL:** The URL of the LM Studio instance. (If you choose to run your own model)
 
-- **Contextual Parameters:**  
-  Definitions that describe the operational environment, such as critical assets and threat landscape details.
+.. image:: /images/settings/llm_configuration.png
+   :alt: Screenshot of the LLM Configuration
+   :align: center
+   :width: 80%
 
-Example Configuration File
+Database Configuration
 --------------------------
-Below is a sample snippet from a configuration file (e.g., `config.yaml`):
+The first time you run BUDA, you will need to create a SQLite database using the "Recreate Database" button. This database will rescreate all the structure for the narratives, user profiles, and activities.
 
-```yaml
-# Global configuration for BUDA
-global:
-  log_level: INFO
-  db_uri: "sqlite:///buda.db"
+.. image:: /images/settings/recreate_database.png
+   :alt: Screenshot of the Database Configuration
+   :align: center
+   :width: 80%
 
-narrative:
-  similarity_threshold: 80
-  default_duration: "2h"
-  temporal_limits:
-    start_time: "08:00"
-    end_time: "18:00"
-
-user_profiles:
-  default_role: "Analyst"
-  work_hours:
-    start: "09:00"
-    end: "17:00"
-  variability_margin: 10
-
-activities:
-  schedule_interval: "15m"
-  randomness: 0.2
-
-context:
-  environment: "production"
-  critical_assets: ["server1", "server2", "database1"]
+Next Steps
+---------------
+- :doc:`Narratives`

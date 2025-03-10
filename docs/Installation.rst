@@ -58,3 +58,6 @@ Installation Steps
    
       $ buda --version
    
+Next Steps
+---------------
+- :doc:`Configuration`

@@ -37,3 +37,8 @@ Setting up activities involves several steps:
    :alt: Screenshot of the Activities Configuration with LLMs assistance
    :align: center
    :width: 80%
+
+Next Steps
+---------------
+- :doc:`Narratives`
+- :doc:`UserProfiles`

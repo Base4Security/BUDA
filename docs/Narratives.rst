@@ -66,3 +66,8 @@ To set up a narrative in BUDA, follow these steps:
 
 .. note::
    Narratives can be modified at any time to adapt to changing operational requirements. By carefully designing narratives, security teams can ensure that deception operations are effective, ultimately enhancing the overall resilience against sophisticated cyber threats.
+
+Next Steps
+---------------
+- :doc:`UserProfiles`
+- :doc:`Activities`
