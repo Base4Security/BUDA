@@ -10,16 +10,23 @@ Key Components
 Narrative creation in BUDA is structured around three essential elements:
 
 1. **Narrative definitions**
+
    - **Title:** Assign a unique and descriptive name to the narrative.
+
    - **Objective:** Define clear operational goals (e.g., diverting attacks, early detection) that guide the simulated activities.
-   - ** Assigned User Profiles:** Specify the simulated user profiles that will participate in the narrative.
+
+   - **Assigned User Profiles:** Specify the simulated user profiles that will participate in the narrative.
 
 2. **Additional elemets**
+
    - **Attacker Profile:** Specify the expected characteristics of adversaries that the narrative targets.
+
    - **Deception Activities:** List and configure the fake resources (e.g., documents, network services) that will interact with the simulated profiles.
+
    - ** Similarity Threshold:** Set the percentage of simulated behavior that should mimic real user activity.
 
 3. **Temporal limit**
+
    - **End Date:** Set a deadline for the narrative to conclude.
 
 Creating a Narrative
