@@ -18,6 +18,7 @@ Installation Steps
    Open your terminal or Command Prompt and run:
    
    .. code-block:: bash
+
       $ git clone https://github.com/Base4Security/BUDA.git
       $ cd BUDA
 
@@ -27,11 +28,13 @@ Installation Steps
    If you plan to use BUDA in a production environment, it is recommended to create a virtual environment to isolate dependencies and avoid conflicts. To create a virtual environment, run:
    
    .. code-block:: bash
+
       $ python3 -m venv venv
    
    Activate the virtual environment:
    
    .. code-block:: bash
+
       $ source venv/bin/activate
 
 
@@ -40,6 +43,7 @@ Installation Steps
    Install the BUDA package using pip:
    
    .. code-block:: bash
+
       $ pip install .
 
 4. **Verify Installation**
@@ -47,8 +51,10 @@ Installation Steps
    To verify that BUDA is installed correctly, run:
    
    .. code-block:: bash
+
       $ python -c "import BUDA;"
 
    .. code-block:: bash
+   
       $ buda --version
    
