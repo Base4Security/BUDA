@@ -50,7 +50,14 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Current Global context</span>
-        <button id="downloadContextBtn" class="btn btn-sm btn-success">Download JSON</button>
+        <div class="d-flex gap-2">
+            <button id="downloadContextBtn" class="btn btn-sm btn-success">
+                <i class="fa fa-download"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="deleteContextFile()">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
     </div>
     <div class="card-body">
         <pre id="contextData" class="json-container">{{ context_data | tojson(indent=4) }}</pre>
@@ -136,6 +143,19 @@
     a.click();
     document.body.removeChild(a);
     });
+
+    // Delete Context File
+    function deleteContextFile() {
+        if (confirm("Are you sure you want to delete the context file? This action cannot be undone!")) {
+            fetch("/context/delete", { method: "DELETE" })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    document.getElementById("context-container").textContent = "Context file deleted.";
+                })
+                .catch(error => console.error("Error deleting context file:", error));
+        }
+    }
 </script>
 
 <style>

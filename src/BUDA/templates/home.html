@@ -15,7 +15,7 @@
             <li id="narrative-{{ narrative.id }}" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ narrative.id }} - {{ narrative.title[:50] }}{% if narrative.title|length > 50 %}...{% endif %}</strong> - 
-                    {{ narrative.objective[:100] }}{% if narrative.objective|length > 100 %}...{% endif %}
+                    {{ narrative.objective[:45] }}{% if narrative.objective|length > 45 %}...{% endif %}
                 </div>
                 <div>
                     {% if narrative.is_running %}

@@ -54,3 +54,11 @@ def upload_progress():
             yield "data: Upload Complete!\n\n"
 
     return Response(stream_with_context(process_evtx()), mimetype='text/event-stream')
+
+@context_bp.route('/delete', methods=['DELETE'])
+def delete_context():
+    """Deletes the context.json file."""
+    if os.path.exists(CONTEXT_FILE):
+        os.remove(CONTEXT_FILE)
+        return jsonify({"message": "Context file deleted successfully."}), 200
+    return jsonify({"error": "Context file not found."}), 404

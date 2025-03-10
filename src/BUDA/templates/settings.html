@@ -3,35 +3,39 @@
 {% block title %}Settings{% endblock %}
 
 {% block content %}
-<h3 class="mb-4">LLM Configuration</h3>
 
-<form id="settingsForm" method="POST">
-    <div class="mb-3">
-        <label for="provider" class="form-label">LLM Provider</label>
-        <select class="form-select" id="provider" name="provider">
-            <option value="">Select a provider</option>
-            <option value="openai" {% if settings.provider == "openai" %}selected{% endif %}>OpenAI</option>
-            <option value="lmstudio" {% if settings.provider == "lmstudio" %}selected{% endif %}>LM Studio</option>
-        </select>
+<div class="card mb-4">
+    <div class="card-header">LLM Configuration</div>
+    <div class="card-body">
+        <form id="settingsForm" method="POST">
+            <div class="mb-3">
+                <label for="provider" class="form-label">LLM Provider</label>
+                <select class="form-select" id="provider" name="provider">
+                    <option value="">Select a provider</option>
+                    <option value="openai" {% if settings.provider == "openai" %}selected{% endif %}>OpenAI</option>
+                    <option value="lmstudio" {% if settings.provider == "lmstudio" %}selected{% endif %}>LM Studio</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="model_name" class="form-label">Model Name</label>
+                <input type="text" class="form-control" id="model_name" name="model_name" value="{{ settings.model_name }}" required>
+            </div>
+
+            <div id="apiKeySection" class="mb-3" {% if settings.provider != "openai" %}style="display: none;"{% endif %}>
+                <label for="api_key" class="form-label">OpenAI API Key</label>
+                <input type="password" class="form-control" id="api_key" name="api_key" value="{{ settings.api_key }}">
+            </div>
+
+            <div id="lmStudioSection" class="mb-3" {% if settings.provider != "lmstudio" %}style="display: none;"{% endif %}>
+                <label for="lmstudio_url" class="form-label">LM Studio URL</label>
+                <input type="text" class="form-control" id="lmstudio_url" name="lmstudio_url" value="{{ settings.lmstudio_url }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label for="model_name" class="form-label">Model Name</label>
-        <input type="text" class="form-control" id="model_name" name="model_name" value="{{ settings.model_name }}" required>
-    </div>
-
-    <div id="apiKeySection" class="mb-3" {% if settings.provider != "openai" %}style="display: none;"{% endif %}>
-        <label for="api_key" class="form-label">OpenAI API Key</label>
-        <input type="password" class="form-control" id="api_key" name="api_key" value="{{ settings.api_key }}">
-    </div>
-
-    <div id="lmStudioSection" class="mb-3" {% if settings.provider != "lmstudio" %}style="display: none;"{% endif %}>
-        <label for="lmstudio_url" class="form-label">LM Studio URL</label>
-        <input type="text" class="form-control" id="lmstudio_url" name="lmstudio_url" value="{{ settings.lmstudio_url }}">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Settings</button>
-</form>
+</div>
 
 <!-- Reset Database Section -->
 <div class="card mt-4">
@@ -44,6 +48,8 @@
         <div id="resetDbResponse" class="mt-3"></div>
     </div>
 </div>
+
+<br>
 
 <script>
     document.getElementById('provider').addEventListener('change', function () {

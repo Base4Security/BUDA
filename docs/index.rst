@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-BUDA - Behavioral User-driven Deceptive Activities Framework
+Behavioral User-driven Deceptive Activities Framework (BUDA)
 ============================================================
 
 BUDA is an deception-based security framework designed to enhance **deception operations** by adding realistic traces of human to deception activities.
