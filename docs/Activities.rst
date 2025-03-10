@@ -18,18 +18,19 @@ BUDA’s activity simulation is built around the next elements:
    - **Assigned User Profiles:** Select the user profiles that will perform the activity.
 
 
-Configuring Activities in BUDA
+Configuring Activity types in BUDA
 -------------------------------
 Setting up activities involves several steps:
 
-- **Defining Activity Profiles:**  
-  Customize the types of actions to be simulated for each user profile. This can include selecting from predefined activity templates or creating custom sequences.
+- **Manual Creation:**
+   Customize the types of actions to be simulated for each user profile. This can include selecting from predefined activity templates or creating custom sequences.
 
 .. image:: /images/activities/activity_type_creation_interface.png
    :alt: Screenshot of the Activities Configuration Interface
    :align: center
    :width: 80%
 
+- **Assisted Generation:**  
    Use the LLMs to assist in the activity type creation process. The LLMs can provide insights on the activity design to enhance the simulation strategy.
   
 .. image:: /images/activities/activity_type_creation_assisted.png
