@@ -10,12 +10,13 @@ Key Components of Activity Simulation
 BUDA’s activity simulation is built around the next elements:
 
 1. **Activity type elements**
-   - **Activity type:**
-      Define the type of action to be simulated, such as browsing, editing, or login. 
-   - **Details:**  
-      Specify the parameters of the action, such as the target file, the accessed URL, or the executed command.
-   - Assign User Profiles:  
-      Select the user profiles that will perform the activity.
+
+   - **Activity type:** Define the type of action to be simulated, such as browsing, editing, or login.
+
+   - **Details:** Specify the parameters of the action, such as the target file, the accessed URL, or the executed command.
+
+   - **Assigned User Profiles:** Select the user profiles that will perform the activity.
+
 
 Configuring Activities in BUDA
 -------------------------------
@@ -24,14 +25,14 @@ Setting up activities involves several steps:
 - **Defining Activity Profiles:**  
   Customize the types of actions to be simulated for each user profile. This can include selecting from predefined activity templates or creating custom sequences.
 
-.. image:: /images/activities/activities_creation_interface.png
+.. image:: /images/activities/activity_type_creation_interface.png
    :alt: Screenshot of the Activities Configuration Interface
    :align: center
    :width: 80%
 
    Use the LLMs to assist in the activity type creation process. The LLMs can provide insights on the activity design to enhance the simulation strategy.
   
-.. image:: /images/activities/activities_creation_assisted.png
+.. image:: /images/activities/activity_type_creation_assisted.png
    :alt: Screenshot of the Activities Configuration with LLMs assistance
    :align: center
    :width: 80%

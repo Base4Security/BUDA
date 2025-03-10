@@ -28,6 +28,7 @@ Below is a high-level architecture diagram illustrating how these components int
    :align: center
    :width: 80%
 
+
 Getting Started
 ---------------
 This documentation is organized to guide you through every aspect of BUDA:

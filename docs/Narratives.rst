@@ -36,6 +36,7 @@ To set up a narrative in BUDA, follow these steps:
 - **Step 1: Prepare the Scenario**  
   Identify the operational objectives. For example, if the goal is to divert an attacker’s focus from critical systems, design the narrative to simulate routine interactions with a non-critical service.
 
+
 - **Step 2: Configure Narrative Details**  
   Use the Narratives menu to set the configuration paramenters.
 
@@ -51,6 +52,7 @@ To set up a narrative in BUDA, follow these steps:
    :align: center
    :width: 80%
 
+
 - **Step 3: Review the created narrative**
   Review the narrative to ensure that all the necessary components are included and configured correctly.
 
@@ -59,10 +61,12 @@ To set up a narrative in BUDA, follow these steps:
    :align: center
    :width: 80%
 
+
 .. image:: /images/narratives/narrative_review_interface.png
    :alt: Screenshot of the Narrative Review Interface
    :align: center
    :width: 80%
+
 
 .. note::
    Narratives can be modified at any time to adapt to changing operational requirements. By carefully designing narratives, security teams can ensure that deception operations are effective, ultimately enhancing the overall resilience against sophisticated cyber threats.
