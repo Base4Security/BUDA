@@ -1,8 +1,7 @@
-from app import create_app
-from app.utils.startup import reset_narratives_on_startup
+from src.BUDA import start
+from src.BUDA.utils.startup import reset_narratives_on_startup
 
-
-app = create_app()
+app = start()
 
 with app.app_context():
     reset_narratives_on_startup(app)

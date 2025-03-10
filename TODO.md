@@ -1,6 +1,8 @@
 
 # TODO:
 
-- Add config for WINRM (remote server, username, password)
-- Add the command generation prompts
-- Add dial for percentage_of_similarity in UerProfile
+- [ ] Add user profile export/import button
+- [ ] Add user profile clone button
+- [ ] Add command injection field
+- [ ] Enhance context extraction from logs
+- [ ] Test & improve commnad generation strategies

@@ -3,10 +3,12 @@ venv*
 .env
 
 *-dev*
-*old-*
 *-DEV*
+*old-*
 
 *.pyc
+.eggs
+.egg-info
 
 context.json
 config_llm.json

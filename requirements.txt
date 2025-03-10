@@ -1,0 +1,7 @@
+flask
+flask-sqlalchemy
+python-dotenv
+requests
+openai
+python-evtx
+pywinrm

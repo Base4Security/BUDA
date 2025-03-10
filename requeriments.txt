@@ -1,9 +1,0 @@
-flask
-flask-sqlalchemy
-python-dotenv
-requests
-openai
-flask-migrate
-python-evtx
-openai
-pywinrm
