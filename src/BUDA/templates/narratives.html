@@ -5,7 +5,7 @@
 {% block content %}
 <h3 class="mb-4">Narratives management</h3>
 
-<!-- Formulario para crear una narrativa -->
+<!-- Form to create a narrative -->
 <div class="card mb-4">
     <div class="card-header">Narratives</div>
     <div class="card-body">
@@ -14,7 +14,7 @@
             {% for narrative in all_narratives %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="narrative-title">
-                    <strong>{{ narrative.id }} - {{ narrative.title[:40] }}{% if narrative.title|length > 40 %}...{% endif %}</strong> - {{ narrative.objective[:70] }}{% if narrative.objective|length > 70 %}...{% endif %}
+                    <strong>{{ narrative.id }} - {{ narrative.title[:50] }}{% if narrative.title|length > 50 %}...{% endif %}</strong> - {{ narrative.objective[:45] }}{% if narrative.objective|length > 45 %}...{% endif %}
                     {% if narrative.is_running %}
                     <span class="badge bg-success">Running</span>
                     {% else %}

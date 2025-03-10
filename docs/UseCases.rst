@@ -1,6 +1,8 @@
 Use Cases
 =========
 
+.. KeepInMind:: "A LIE is only as good as the story behind it, here are some use cases to illustrate how you can deploy your environments."
+
 This section describes some of the primary use cases that illustrate how BUDA can be applied in operational settings.
 
 1. Attack Diversion and Early Detection

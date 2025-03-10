@@ -46,7 +46,7 @@ def edit_activity(activity_id):
     all_user_profiles = UserProfile.query.all()
 
     if request.method == 'POST':
-        # Actualizar datos de la actividad
+        # Update the activity
         activity.activity_type = request.form.get('activity_type')
         activity.details = request.form.get('details')
         # Handle User Profiles (Multiple)
@@ -57,7 +57,7 @@ def edit_activity(activity_id):
         db.session.commit()
         return redirect(url_for('activities_bp.manage_activities'))
 
-    # Renderizar el formulario de edición con los datos de la actividad
+    # Render the edit form
     return render_template('edit_activities.html', activity=activity, all_user_profiles=all_user_profiles)
 
 @activities_bp.route('/delete/<int:activity_id>', methods=['POST'])

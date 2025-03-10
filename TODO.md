@@ -6,3 +6,4 @@
 - [ ] Add command injection field
 - [ ] Enhance context extraction from logs
 - [ ] Test & improve commnad generation strategies
+- [ ] Add frequency parameter to Activity types

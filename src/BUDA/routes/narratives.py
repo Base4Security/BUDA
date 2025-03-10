@@ -63,12 +63,12 @@ def delete_narrative(narrative_id):
 
 @narratives_bp.route('/edit/<int:narrative_id>', methods=['GET', 'POST'])
 def edit_narrative(narrative_id):
-    # Obtener la narrativa existente
+    # Obtain the narrative from the database
     narrative = Narrative.query.get_or_404(narrative_id)
     all_user_profiles = UserProfile.query.all()
     
     if request.method == 'POST':
-        # Actualizar los datos de la narrativa
+        # Update the narrative with the new data
         narrative.title = request.form.get('title')
         narrative.objective = request.form.get('objective')
         narrative.attacker_profile = request.form.get('attacker_profile')
@@ -86,7 +86,7 @@ def edit_narrative(narrative_id):
         db.session.commit()
         return redirect(url_for('narratives_bp.manage_narratives'))
     
-    # Renderizar el formulario de edición con los datos de la narrativa
+    # Render the edit form
     return render_template('narrative_edit.html', narrative=narrative, all_user_profiles=all_user_profiles)
 
 @narratives_bp.route('/generate', methods=['POST'])

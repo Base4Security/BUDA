@@ -3,7 +3,7 @@
 {% block title %}Review Narrative{% endblock %}
 
 {% block content %}
-<!-- Detalles de la narrativa -->
+<!-- Narrative details -->
 <div class="card mb-4" >
     <div class="card-header">Narrative Details</div>
     <div class="card-body">
@@ -28,6 +28,23 @@
                 <em>Behavior Pattern:</em> {{ profile.behavior_pattern }} <br>
                 <em>WinRM:</em> Server: {{ profile.winrm_server }} - Username: {{ profile.winrm_username }}
             </li>
+            <div class="card mb-4">
+                <div class="card-header">Activity Types</div>
+                <div class="card-body">
+                    {% if profile.activities %}
+                    <ul class="list-group">
+                        {% for activity in profile.activities %}
+                        <li class="list-group-item">
+                            <strong>{{ activity.activity_type }}</strong> <br>
+                            <em>Details:</em> {{ activity.details }} <br>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No user activity types associated with this user profile.</p>
+                    {% endif %}
+                </div>
+            </div>
             {% endfor %}
         </ul>
         {% else %}
@@ -36,27 +53,7 @@
     </div>
 </div>
 
-<!-- Actividades relacionadas -->
-<div class="card mb-4">
-    <div class="card-header">Activities</div>
-    <div class="card-body">
-        {% if activities %}
-        <ul class="list-group">
-            {% for activity in activities %}
-            <li class="list-group-item">
-                <strong>{{ activity.description }}</strong> <br>
-                <em>Details:</em> {{ activity.details }} <br>
-                <em>Assigned to:</em> {{ activity.user_profile.name }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>No activities associated with this narrative.</p>
-        {% endif %}
-    </div>
-</div>
-
-<!-- Botones de acción -->
+<!-- Action buttons -->
 <div>
     <a href="{{ url_for('narratives_bp.manage_narratives') }}" class="btn btn-secondary">Back</a>
 </div>

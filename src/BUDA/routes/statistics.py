@@ -18,14 +18,14 @@ def activities_per_narrative():
     """
     data = db.session.query(
         Narrative.title.label("narrative_title"),
-        func.coalesce(func.count(Activity.id), 0).label("activity_count")  # ✅ Convert NULL to 0
+        func.coalesce(func.count(Activity.id), 0).label("activity_count")
     ).outerjoin(narratives_user_profiles, Narrative.id == narratives_user_profiles.c.narrative_id) \
      .outerjoin(UserProfile, UserProfile.id == narratives_user_profiles.c.user_profile_id) \
      .outerjoin(user_profiles_activity_types, UserProfile.id == user_profiles_activity_types.c.user_profile_id) \
      .outerjoin(Activity, Activity.id == user_profiles_activity_types.c.activity_id) \
      .group_by(Narrative.title).all()
 
-    # ✅ Format result as JSON
+    # Format result as JSON
     result = [{"narrative": row.narrative_title, "activities": row.activity_count} for row in data]
     return jsonify(result)
 
@@ -36,12 +36,12 @@ def activities_per_profile():
     """
     data = db.session.query(
         UserProfile.name.label("profile_name"),
-        func.coalesce(func.count(Activity.id), 0).label("activity_count")  # ✅ Convert NULL to 0
+        func.coalesce(func.count(Activity.id), 0).label("activity_count")
     ).outerjoin(user_profiles_activity_types, UserProfile.id == user_profiles_activity_types.c.user_profile_id) \
      .outerjoin(Activity, Activity.id == user_profiles_activity_types.c.activity_id) \
      .group_by(UserProfile.name).all()
 
-    # ✅ Format result as JSON
+    # Format result as JSON
     result = [{"profile": row.profile_name, "activities": row.activity_count} for row in data]
     return jsonify(result)
 

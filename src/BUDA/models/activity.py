@@ -6,9 +6,9 @@ class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, server_default=db.func.now())
     activity_type = db.Column(db.Text, nullable=False)
-    details = db.Column(db.Text, nullable=True)  # JSON o string con detalles adicionales
+    details = db.Column(db.Text, nullable=True)
 
-    # Relación con el perfil de usuario
+    # Relation with UserProfile
     user_profiles = db.relationship('UserProfile', secondary=user_profiles_activity_types, back_populates='activities')
 
     def to_dict(self):

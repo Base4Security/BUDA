@@ -8,14 +8,10 @@ narrative_review_bp = Blueprint('narrative_review_bp', __name__)
 
 @narrative_review_bp.route('/narratives/review/<int:narrative_id>', methods=['GET'])
 def review_narrative(narrative_id):
-    # Obtener la narrativa específica
+    # Obtain the narrative
     narrative = Narrative.query.get_or_404(narrative_id)
 
-    # Obtener perfiles asociados a la narrativa
+    # Obtain the user
     user_profiles = narrative.user_profiles
-    print(user_profiles)
 
-    # Obtener actividades relacionadas con los perfiles
-    activities = Activity.query.filter(Activity.user_profile_id.in_([profile.id for profile in user_profiles])).all()
-
-    return render_template('narrative_review.html', narrative=narrative, user_profiles=user_profiles, activities=activities)
+    return render_template('narrative_review.html', narrative=narrative, user_profiles=user_profiles)

@@ -5,9 +5,9 @@
 {% block content %}
 <h3 class="mb-4">Activity Management</h3>
 
-<!-- Formulario para crear una actividad -->
+<!-- Form to create an activity type-->
 <div class="card mb-4">
-    <div class="card-header">Types of Activities</div>
+    <div class="card-header">Activity types</div>
     <div class="card-body">
         {% if all_activities %}
         <ul class="list-group">
@@ -29,7 +29,7 @@
             {% endfor %}
         </ul>
         {% else %}
-        <p>No activities available.</p>
+        <p>No activitiy types available.</p>
         {% endif %}
     </div>
 </div>
@@ -83,7 +83,7 @@
             return;
         }
 
-        const user_profile_id = document.getElementById('userProfileSelect').value;
+        const user_profile_id = document.getElementById('user_profiles').value;
         if (user_profile_id == '') {
             alert('You need to select a user profile to generate an activity type');
             return;

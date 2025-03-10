@@ -7,23 +7,27 @@ User profiles in the BUDA framework represent the simulated identities that inte
 
 Key Components
 --------------
-User profiles in BUDA are managed through two primary components:
+User profiles in BUDA are managed through the next components:
 
-1. **Profile Creation Tool**
-   - **Personalization:**  
-     Define key attributes for each profile, such as the user's name, role (e.g., IT Analyst, Administrative Staff), and other identifying characteristics.
-   - **Behavioral Patterns:**  
+1. **User Profile definitions**
+   - **Name:**
+     Assign a unique identifier to the profile for easy reference and tracking.  
+    - **Role:**  
+     Define the role or job title associated with the profile. This helps in determining the user's access rights and responsibilities within the simulated environment.
+   - **Behavioral patterns:**  
      Configure routines and activities typical for the role. This includes setting work hours, application usage, file accesses, and communication habits.
-   - **Variability Settings:**  
-     Introduce controlled randomness to the behaviors, ensuring that interactions remain organic and avoid predictable patterns.
 
-2. **Profile Library**
-   - **Management and Reuse:**  
-     Maintain a repository of created profiles that can be edited, duplicated, or removed as needed. This library helps in reusing profiles across different narratives and operational scenarios.
-   - **Version Control:**  
-     Keep a history of changes, allowing security teams to audit modifications and fine-tune profiles based on simulation feedback.
-   - **Export Capabilities:**  
-     Profiles can be exported in standard formats (such as JSON) for integration with other security tools and external systems.
+2. **Activity executor**
+    - **WinRM Server:**  
+     Specify the WinRM server that will execute the activities on behalf of the user profile.
+     - **WinRM Username:**
+     Provide the username for the WinRM endpoint.
+      - **WinRM Password:**
+      Provide the password for the WinRM endpoint.
+
+3. **Assigned narratives**
+    - **Narratives:**  
+     Link the user profile to one or more narratives that define the context and objectives of the deception operation.
 
 Configuring User Profiles in BUDA
 ----------------------------------
@@ -31,20 +35,16 @@ Setting up user profiles involves several steps:
 
 - **Manual Creation:**  
   Security teams can create profiles by manually specifying attributes and behavior parameters tailored to specific operational needs.
-- **Assisted Generation:**  
-  The system supports assisted profile creation using built-in templates and, if desired, integration with language models (LLMs) to automatically generate realistic profiles.
-- **Dynamic Adaptation:**  
-  Profiles can be adjusted on the fly based on simulation results or updated threat intelligence, ensuring they remain effective over time.
 
-Placeholder for Screenshots
----------------------------
-.. image:: /path/to/your/userprofiles_screenshot_placeholder.png
-   :alt: Screenshot of the User Profiles Management Interface
+.. image:: /images/user_profiles/user_profile_creation_interface.png
+   :alt: Screenshot of the User Profile Creation Interface
    :align: center
    :width: 80%
 
-*Note: Replace the placeholder path with the actual path to your screenshots once they are available.*
+- **Assisted Generation:**  
+  The system supports assisted profile creation using integration with language models (LLMs) to automatically generate realistic profiles. Based on assigned narratives and global context.
 
-Conclusion
-----------
-Effective user profiles are crucial for establishing a believable deception environment in BUDA. By simulating realistic human behaviors and interactions, these profiles enhance the credibility of decoy operations, divert attackers, and provide valuable insights into adversary tactics. With robust creation and management tools, BUDA empowers security teams to maintain an agile and adaptive deception strategy.
+.. image:: /images/user_profiles/user_profile_creation_assisted.png
+   :alt: Screenshot of the User Profile Creation with LLMs assistance
+   :align: center
+   :width: 80%

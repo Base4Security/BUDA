@@ -55,7 +55,7 @@ function startLogStream() {
             // Append new log line and keep only the last 20 lines
             let logs = logContainer.textContent.split("\n");
             logs.push(logLine);
-            if (logs.length > 20) logs.shift();  // Remove oldest logs to maintain last 10 lines
+            if (logs.length > 20) logs.shift();  // Remove oldest logs to maintain last 20 lines
             
             logContainer.textContent = logs.join("\n");
         };
