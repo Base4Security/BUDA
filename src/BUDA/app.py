@@ -12,6 +12,13 @@ def main(verbosity="INFO", host="127.0.0.1", port:int=9875):
     # Initialize the database
     db.init_app(app)
 
+    # Resets all narratives on app startup.
+    from .models.narrative import Narrative
+    with app.app_context():
+        db.create_all()
+        db.session.query(Narrative).update({Narrative.is_running: False})
+        db.session.commit()
+
     # Register Blueprints
     from .routes.root import root_bp
     app.register_blueprint(root_bp, url_prefix='/')

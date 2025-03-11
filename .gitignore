@@ -18,6 +18,8 @@ buda.db
 
 __pycache__/
 _build/
+build/
+dist/
 migrations/
 dist/*
 *egg-*
