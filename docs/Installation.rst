@@ -7,7 +7,7 @@ This section guides you through installing the BUDA framework (Behavioral User-d
 
 Requirements
 ------------
-- **Python 3.7+**: Ensure that Python is installed on your system.
+- **Python 3.11+**: Ensure that Python is installed on your system.
 - **pip**: Make sure you have an updated version of pip.
 - **Virtual Environment (Recommended)**: To avoid dependency conflicts, use a virtual environment.
 
