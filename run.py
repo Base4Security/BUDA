@@ -1,4 +1,4 @@
-from src.BUDA import start
+from BUDA import start
 
 app = start()
     

@@ -59,35 +59,48 @@ It **recreates normal activity patterns** in your environment, enhancing **decep
 ---
 
 ## 🛠️ Installation & Setup
-### **1️⃣ Clone the Repository**
-```bash
-git clone https://github.com/Base4Security/BUDA.git
-cd BUDA
-```
 
-### **2️⃣ Create a Virtual Environment**
+### **1️⃣ Create a Virtual Environment**
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### **3️⃣ Install the BUDA package**
+### **2️⃣ Clone & Install BUDA package**
 ```bash
+pip install BUDA
+```
+Or manually clone it
+
+```bash
+git clone https://github.com/Base4Security/BUDA.git
+cd BUDA
 pip install .
 ```
 
-### **4️⃣ Verify the installation**
+### **3️⃣ Verify the installation**
 ```bash
 python -c "import BUDA;"
 buda --version
 ```
 
-### **5️⃣ Start BUDA**
+### **4️⃣ Start BUDA**
 ```bash
 python run.py
 ```
 
-Now, visit **`http://127.0.0.1:9875/`** in your browser and enjoy!
+Here you have your first run.py code for BUDA execution:
+
+```python
+from BUDA import start
+
+app = start()
+    
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+Now, visit **`http://127.0.0.1:5000/`** in your browser and enjoy!
 
 ---
 
