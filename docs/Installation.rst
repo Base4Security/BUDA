@@ -57,7 +57,18 @@ Installation Steps
    .. code-block:: bash
    
       $ buda --version
+
+5. **Start BUDA**
    
+   To start the BUDA server, run:
+   
+   .. code-block:: bash
+
+      $ python run.py
+
+   The server will start on port 5000 by default. You can access the BUDA dashboard by navigating to `http://localhost:9875` in your browser.
+
+
 Next Steps
 ---------------
 - :doc:`Configuration`

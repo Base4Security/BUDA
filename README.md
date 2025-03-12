@@ -34,26 +34,85 @@ cd BUDA
 
 ### **2️⃣ Create a Virtual Environment**
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### **3️⃣ Install Dependencies**
+### **3️⃣ Install the BUDA package**
 ```bash
-pip install -r requirements.txt
+pip install .
 ```
 
-### **5️⃣ Start the Application**
+### **4️⃣ Verify the installation**
+```bash
+python -c "import BUDA;"
+buda --version
+```
+
+### **5️⃣ Start BUDA**
 ```bash
 python run.py
 ```
 
-Now, visit **`http://127.0.0.1:5000/`** in your browser and enjoy!
+Now, visit **`http://127.0.0.1:9875/`** in your browser and enjoy!
 
 ---
 
 ## 🔥 How It Works
-### **📤 Pending description...**
+
+BUDA operates by simulating realistic user behaviors within a **decoy environment** to enhance cyber deception strategies. It achieves this through the orchestration of several key components working in concert.  
+
+### 🛠 Process Breakdown  
+
+#### 📌 Context Integration  
+The process begins by integrating real-world environmental data into BUDA through the **Global Context**. This involves uploading **EVTX logs** to extract information such as:  
+- Usernames  
+- IP addresses  
+- Device names  
+
+These details influence all aspects of activity creation and command execution. The **Global Context** serves as the foundation for generating realistic simulations.  
+
+#### 📖 Narrative Definition  
+Next, you define **Narratives**, which act as the **strategic backbone** of the deception operation. A **narrative** outlines:  
+- **Operational goals** (e.g., diverting attacks, enabling early detection)  
+- **Simulated user profiles** participating in the deception  
+- **Attacker profile expectations**  
+- **Deception activities** (fake resources)  
+
+By setting a **similarity threshold**, you can control how closely the simulated behavior mimics real user activity.  
+
+#### 👤 User Profile Creation  
+With a **narrative** in place, you configure **User Profiles**, representing **simulated identities**. These profiles mimic real users by defining attributes such as:  
+- Name and role  
+- Behavioral patterns (work hours, application usage)  
+- WinRM server details for executing activities  
+
+Profiles can be created manually or generated with **Language Models (LLMs)**. Each profile is linked to one or more narratives, defining its role in deception operations.  
+
+#### 🎭 Activity Simulation  
+BUDA then **simulates user actions** through **Activities**, creating a credible digital footprint. Activities are defined by:  
+- **Action types** (e.g., browsing, logins, file access)  
+- **Action details** (e.g., target file, URL)  
+- **Assigned user profiles** performing the activity  
+
+You can manually create custom activity sequences or use **LLM-assisted generation** to design effective **deception strategies**.  
+
+#### 🤖 LLM Assistance  
+Throughout the process, BUDA leverages **Language Models (LLMs)** for realistic and contextually relevant data generation. You can configure the LLM provider (**OpenAI or LM Studio**) and the specific model in the BUDA settings.  
+
+#### 🚀 Execution and Monitoring  
+Once narratives, user profiles, and activities are configured, BUDA executes the **simulated actions**. The resulting activity traces aim to:  
+- **Create a realistic but deceptive environment**  
+- **Monitor interactions** with decoy elements  
+- **Achieve early detection** of adversaries  
+- **Divert attacker attention** from real assets  
+- **Calibrate and validate monitoring systems**  
+
+### 🔎 Summary  
+BUDA **populates a believable environment** with **fake user identities** engaging in **normal-looking activities**, making it harder for attackers to distinguish between **real and decoy** systems. This approach enhances **cyber defense** by:  
+✅ Providing early warnings  
+✅ Diverting threats  
+✅ Refining deception tactics  
 
 
 ---
