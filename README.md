@@ -1,11 +1,24 @@
-<h3 align="center">BUDA</h3>
-<h4 align="center"><i>Behavioral User-driven Deceptive Activities</i></h4>
+<p align="center">
+	<a href="https://budaframework.readthedocs.io/en/latest/" rel="noopener">
+	 	<img src="https://github.com/Base4Security/BUDA/blob/master/docs/images/logo.png?raw=true" alt="BUDA">
+	</a>
+</p>
+
+<h2 align="center">BUDA</h2>
+<h3 align="center"><i>Behavioral User-driven Deceptive Activities</i></h2>
 
 <hr>
 <div align="center">
 <br>
 
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](/LICENSE)
+[![Documentation Status](https://readthedocs.org/projects/buda/badge/?version=latest)](https://budaframework.readthedocs.io/en/latest/?badge=latest)
+
+</div>
+
+<div align="center">
+
 [![GitHub release](https://img.shields.io/github/release/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Base4Security/BUDA.svg)](https://GitHub.com/Base4Security/BUDA/pull/)
@@ -13,7 +26,17 @@
 </div>
 
 ## About
-**BUDA** is a cybersecurity tool designed to **model user behavior** to recreate normal activity patterns in your environment to **enhance deception strategies** through automated traces.
+
+BUDA is a **cutting-edge experimental cybersecurity solution** designed to **automate the simulation of realistic user behaviors** within **decoy environments**.  
+
+By integrating:  
+✅ **Strategic narratives**  
+✅ **Dynamic user profiles**  
+✅ **Automated activity simulation**  
+
+BUDA models **credible decoys** that **mislead attackers** and **strengthen defense mechanisms**.  
+
+It **recreates normal activity patterns** in your environment, enhancing **deception strategies** through the **generation of automated and realistic digital footprints**. 
 
 ---
 
@@ -22,6 +45,16 @@
 - **Narrative Management**  
 - **User Profiles Management**
 - **Activity generation engine**
+- **LLM Integration for Assisted Generation**
+- **Narrative-Driven Deception**
+
+---
+
+## 📖 Table of Contents
+
+- [🛠️ Installation & Setup](#️-installation--setup)
+- [🔥 How It Works](#-how-it-works)
+- [🤝 Contributing](#-contributing)
 
 ---
 
