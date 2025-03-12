@@ -25,7 +25,16 @@
 
 </div>
 
-## About
+## 📖 Table of Contents
+
+- [ℹ️ About](#️-about)
+- [🛠️ Installation & Setup](#️-installation--setup)
+- [🔥 How It Works](#-how-it-works)
+- [🤝 Contributing](#-contributing)
+
+---
+
+## ℹ️ About
 
 BUDA is a **cutting-edge experimental cybersecurity solution** designed to **automate the simulation of realistic user behaviors** within **decoy environments**.  
 
@@ -47,14 +56,6 @@ It **recreates normal activity patterns** in your environment, enhancing **decep
 - **Activity generation engine**
 - **LLM Integration for Assisted Generation**
 - **Narrative-Driven Deception**
-
----
-
-## 📖 Table of Contents
-
-- [🛠️ Installation & Setup](#️-installation--setup)
-- [🔥 How It Works](#-how-it-works)
-- [🤝 Contributing](#-contributing)
 
 ---
 
