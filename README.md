@@ -30,7 +30,6 @@
 - [ℹ️ About](#️-about)
 - [🛠️ Installation & Setup](#️-installation--setup)
 - [🔥 How It Works](#-how-it-works)
-- [🤝 Contributing](#-contributing)
 
 ---
 
@@ -151,7 +150,6 @@ BUDA **populates a believable environment** with **fake user identities** engagi
 
 ---
 
-
-Want to contribute? **Fork this repo & submit a PR!** 🚀
+Want to contribute? Check out our [Contributing Guide](CONTRIBUTING.md) to learn how to get involved and make an impact! 🚀
 
 
