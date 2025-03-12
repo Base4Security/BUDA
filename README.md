@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://budaframework.readthedocs.io/en/latest/" rel="noopener">
-	 	<img src="https://github.com/Base4Security/BUDA/blob/master/docs/images/logo.png?raw=true" alt="BUDA">
+	 	<img src="https://github.com/Base4Security/BUDA/blob/35615ab92d4f484e8ed812d86f2f000e68d4aaf4/docs/images/logo.png?raw=true" alt="BUDA">
 	</a>
 </p>
 
