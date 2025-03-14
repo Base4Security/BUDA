@@ -6,7 +6,7 @@
 Behavioral User-driven Deceptive Activities Framework (BUDA)
 ============================================================
 
-BUDA is an deception-based security framework designed to enhance **deception operations** by adding realistic traces of human to deception activities.
+BUDA is a deception-based security framework designed to enhance **deception operations** by adding realistic traces of human to deception activities.
 
 It enables **consistency** in the generation of deception operations by **automating** the process of **generating** and **executing** deception operations.
 
@@ -34,5 +34,7 @@ It enables **consistency** in the generation of deception operations by **automa
 Getting Started
 ---------------
 If you’re new to BUDA, start with:
+
 - :doc:`Introduction`
+
 - :doc:`Installation`
