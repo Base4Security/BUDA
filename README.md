@@ -14,6 +14,7 @@
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/buda/badge/?version=latest)](https://budaframework.readthedocs.io/en/latest/?badge=latest)
+[![DOI:10.13140/RG.2.2.20886.87368](https://img.shields.io/badge/DOI-10.13140/RG.2.2.20886.87368-0D72C2.svg)](https://doi.org/10.13140/RG.2.2.20886.87368)
 
 </div>
 
@@ -45,6 +46,9 @@ By integrating:
 BUDA models **credible decoys** that **mislead attackers** and **strengthen defense mechanisms**.  
 
 It **recreates normal activity patterns** in your environment, enhancing **deception strategies** through the **generation of automated and realistic digital footprints**. 
+
+To learn more about the fundamentals behind BUDA, please refer to our research paper:
+[Reinforcement of cyber deception strategies](https://github.com/Base4Security/BUDA/blob/9d09b5bcb4b2c7dc1f1090dafc422e5c70b27bd9/docs/Reinforcement%20of%20cyber%20deception%20strategies%20through%20simulated%20user%20behavior.pdf)
 
 ---
 
